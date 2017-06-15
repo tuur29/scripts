@@ -1,9 +1,10 @@
 #!/usr/bin/perl
 
 # This script will download all photos from a Tumblr blog with the original quality
-# all photos will be saved like blogname/timestamp_tag_tag_1.extension
+# all photos will be saved like <blogname>/<timestamp>_<tags>_<i>_<photosetsize>.<extension>
 
-# You can edit the filename at line 77 (& 87)
+# You can edit the filename at line 77 (& 100)
+# Check line 128 if you want to download blogs with a custom domain
 
 # Register the script here: https://www.tumblr.com/oauth/register
 # login here: https://api.tumblr.com/console/calls/user/info and allow application
@@ -19,6 +20,9 @@ my %oauth_api_params = (
 	 'token_secret' =>
 		'...',
 );
+
+my $batchSize = 20;
+my $keepGoingOnceAlreadyDownloadedFound = 0; # 0 or 1
 
 # IMPORTS
 
@@ -45,19 +49,18 @@ my $useragent = LWP::UserAgent->new;
 my $blog = "";
 if ($#ARGV != 0) {
 	print "Which blog would you like to download? (NAME.tumblr.com): ";
-	my $blog = <STDIN>;
+	$blog = <STDIN>;
 	chomp $blog;
 	exit 0 if ($blog eq "");
 } else { $blog = $ARGV[0] }
 
 # start loop
-my $limit = 20;
 my $i = 0;
 my $count = 0;
 
 while (1) {
 
-	print "\nGetting the next 20 photo posts starting from post ". $i ."\n\n";
+	print "\nGetting the next ". $batchSize ." photo posts starting from post ". $i ."\n\n";
 
 	# get posts
 	my $response = getPage();
@@ -74,17 +77,29 @@ while (1) {
 
 		# make filename
 		my $tags = $post->{'tags'};
-		my $filename = $post->{'timestamp'} ."_". join("_", @$tags );
+		my $filename = $post->{'timestamp'} . (@$tags ? "_". join("_", @$tags ) : "" );
 
 		my $photos = $post->{'photos'};
-		my $i = 0;
+		my $j = 0;
 		foreach my $photo (@$photos) {
-			$i++;
+			$j++;
+
+			my $align = "";
+			if ($post->{'photoset_layout'}) {
+				my $tmpcount = $j;
+				foreach my $number ( split('', $align = $post->{'photoset_layout'}) ) {
+					$tmpcount = $tmpcount-$number;
+					if ($tmpcount <= 0) {
+						$align = $number > 1 ? ( $number > 2 ? ( $number > 3 ? "": "\_triple" ) : "\_double" ) : "\_single";
+						last;
+					}
+				}
+			}
 
 			# get url and extension
 			my $url = $photo->{'original_size'}{'url'};
 			my ($ext) = $url =~ /(\.[^.]+)$/;
-			my $file = "$blog/$filename\_$i$ext";
+			my $file = "$blog/$filename\_$j$align$ext";
 
 			# make folder if it doesn't exist
 			if ( !-d $blog ) {
@@ -94,6 +109,10 @@ while (1) {
 			# check if file already downloaded
 			if (-e $file) {
 				print "$file Already exists!\n";
+				if ($keepGoingOnceAlreadyDownloadedFound) {
+					print "Stopping script\n";
+					exit;
+				}
 				next;
 			}
 
@@ -106,13 +125,13 @@ while (1) {
 		print "\n";
 	}
 
-	$i = $i + $limit;
+	$i = $i + $batchSize;
 }
 
 # request page
 sub getPage {
 
-	my $url = 'http://api.tumblr.com/v2/blog/'. $blog .'.tumblr.com/'.'posts/photo?api_key='.$oauth_api_params{"consumer_key"}.'&offset='.$i.'&limit='.$limit;
+	my $url = 'http://api.tumblr.com/v2/blog/'. $blog .'.tumblr.com/posts/photo?api_key='.$oauth_api_params{"consumer_key"}.'&offset='.$i.'&limit='.$batchSize;
 
 	# make oauth request
 	my $request = Net::OAuth->request('protected resource')->new(
