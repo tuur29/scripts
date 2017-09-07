@@ -124,14 +124,27 @@ sub testIpOnline {
 
 	my $ip = $_[0];
 
-	print "Checking if ". $ip ." is online...\n";
-	my $output = `ping $ip -c 3`;
-	if ( index($output, ' 0% packet loss' ) > -1) {
-		print $ip." online!\n";
-		return 1;
-	}
-	print $ip ." is not online!\n";
+	# print "Checking if ". $ip ." is online...\n";
+	# my $output = `ping $ip -c 3`;
+	# if ( index($output, ' 0% packet loss' ) > -1) {
+	# 	print $ip." online!\n";
+	# 	return 1;
+	# }
+	# print $ip ." is not online!\n";
 
+	# return 0;
+
+	print "Checking if ". $ip ." is online...\n";
+	open(my $file,  "<",  "/home/pi/devices.txt")  or die "Can't open devices.txt:";
+
+	while (<$file>)  {
+		if (/$ip/) {
+			print $ip." online!\n";
+			return 1;
+		}
+	}
+
+	print $ip ." is not online!\n";
 	return 0;
 
 }
