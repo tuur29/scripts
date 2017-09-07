@@ -10,18 +10,33 @@ import RPi.GPIO as GPIO
 import time
 import datetime
 import subprocess
+import json
 
-# options (spaces to %20, no exclamation marks)
+# options, no exclamation marks
 header = 17
 title = "Doorbell"
-text = "Doorbell%20pressed"
-devices = "Phone" #comma seperated
+text = "Doorbell pressed"
+pcIP = "192.168.x.x"
+phoneIP = "192.168.x.x"
+devices = "DEVICE" #comma seperated
+icon = "https://example.com/icon.png"
 apikey = ""
+pushbullettoken = "KEY"
 
 # send notif
 def send(text=text,title=title,devices=devices): 
-	timestamp = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d%%20at%%20%H:%M:%S')
-	subprocess.call('curl "https://joinjoaomgcd.appspot.com/_ah/api/messaging/v1/sendPush?deviceNames='+devices+'&deviceId=group.all&text='+text+'%20on%20'+timestamp+'&title='+title+'&group=doorbell&apikey='+apikey+'"', shell=True)
+
+	timestamp = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d at %H:%M:%S')
+
+	subprocess.call('curl "https://joinjoaomgcd.appspot.com/_ah/api/messaging/v1/sendPush?deviceNames='+devices.replace(" ", "%20").replace(",", "%2C")+'&deviceId=group.all&text='+text.replace(" ", "%20")+'%20on%20'+timestamp.replace(" ", "%20")+'&title='+title+'&group=doorbell&smallicon='+icon+'&apikey='+apikey+'"', shell=True)
+
+	p = subprocess.Popen("curl --header 'Access-Token: "+pushbullettoken+"' --header 'Content-Type: application/json' --data-binary '{\"body\":\""+text+' on '+timestamp+"\",\"title\":\""+title+"\",\"type\":\"note\"}' --request POST https://api.pushbullet.com/v2/pushes", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
+	response, errors = p.communicate()
+	data = json.loads(response)
+
+	subprocess.Popen("(sleep 30 && curl --header 'Access-Token: "+pushbullettoken+"' --request DELETE https://api.pushbullet.com/v2/pushes/"+data["iden"]+")", shell=True)
+
 	# print timestamp +"  "+ text
 	return
 
@@ -46,7 +61,9 @@ while True:
 				time.sleep(0.2)
 				if state() == True:
 					# doorbell pressed
-					send()
+					devices = open('/home/pi/devices.txt').read()
+					if (phoneIP in devices) or (pcIP in devices):
+						send()
 					time.sleep(5)
 
 			else:
