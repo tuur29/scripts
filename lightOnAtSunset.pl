@@ -88,16 +88,21 @@ if ( !$lightActive ) {
 
 		print "Getting sunset timestamp...\n";
 
+		my $now = DateTime->now;
+
 		my $sunsetRequest = HTTP::Request->new('GET', 'http://api.sunrise-sunset.org/json?lat='.$latitude.'&lng='.$longitude.'&formatted=0');
 		my $sunsetResult = $useragent->request($sunsetRequest);
 		my $resultData = decode_json( $sunsetResult->decoded_content );
+		
+		my $key = "sunset";
+		if ( $now->month < 10 && $now->month > 5 ) {
+			$key = "civil_twilight_end";
+		}
 
 		my $parser = DateTime::Format::ISO8601->new;
-		my $sunset = $parser->parse_datetime( $resultData->{"results"}{"sunset"} );
-		my $now = DateTime->now;
-
+		my $sunset = $parser->parse_datetime( $resultData->{"results"}{$key} );
+			
 		print "It is: " . $now->ymd . " " . $now->hms."\n";
-		$sunset->subtract(hours => 1.5);
 		print "Sunset at: " . $sunset->ymd . " " . $sunset->hms."\n";
 
 		if ( DateTime->compare($now, $sunset) > 0 ) {
@@ -147,14 +152,27 @@ sub testIpOnline {
 
 	my $ip = $_[0];
 
-	print "Checking if ". $ip ." is online...\n";
-	my $output = `ping $ip -c 3`;
-	if ( index($output, ' 0% packet loss' ) > -1) {
-		print $ip." online!\n";
-		return 1;
-	}
-	print $ip ." is not online!\n";
+	# print "Checking if ". $ip ." is online...\n";
+	# my $output = `ping $ip -c 3`;
+	# if ( index($output, ' 0% packet loss' ) > -1) {
+	# 	print $ip." online!\n";
+	# 	return 1;
+	# }
+	# print $ip ." is not online!\n";
 
+	# return 0;
+
+	print "Checking if ". $ip ." is online...\n";
+	open(my $file,  "<",  "/home/pi/devices.txt")  or die "Can't open devices.txt:";
+
+	while (<$file>)  {
+		if (/$ip/) {
+			print $ip." online!\n";
+			return 1;
+		}
+	}
+
+	print $ip ." is not online!\n";
 	return 0;
 
 }
