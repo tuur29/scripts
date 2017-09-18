@@ -16,8 +16,8 @@ import json
 header = 17
 title = "Doorbell"
 text = "Doorbell pressed"
-pcIP = "192.168.x.x"
-phoneIP = "192.168.x.x"
+pcIP = "192.168.x.x " #add space after
+phoneIP = "192.168.x.x "
 devices = "DEVICE" #comma seperated
 icon = "https://example.com/icon.png"
 apikey = ""
@@ -61,10 +61,12 @@ while True:
 				time.sleep(0.2)
 				if state() == True:
 					# doorbell pressed
-					devices = open('/home/pi/devices.txt').read()
-					if (phoneIP in devices) or (pcIP in devices):
-						send()
-					time.sleep(5)
+					hour = int(datetime.datetime.fromtimestamp(time.time()).strftime('%-H'))
+					if 6 <= hour <= 22:
+						onlinedevices = open('/home/pi/devices.txt').read()
+						if (phoneIP in onlinedevices) or (pcIP in onlinedevices):
+							send()
+						time.sleep(5)
 
 			else:
 				time.sleep(0.2)
