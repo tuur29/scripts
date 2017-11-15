@@ -1,0 +1,172 @@
+// 
+//  Table of Contents generator for google Drive folders
+//  How to use:
+//    1. Make a new Google sheet in a Google Drive folder
+//    2. Rename the file and disable gridlines under the View menu
+//    3. Open the Script Editor under the Tools menu
+//    4. Paste the contents of this file in the new window
+//    5. Edit the settings below to suit your needs
+//    6. Open the trigger settings under Edit > Current Project Triggers
+//    7. Add a new trigger, select "startNewTOC" and "Time driven"
+//    8. Enter your preferred time and click save
+//    9. Select the function "setup" at the top and press the play icon
+//    10. Follow the steps to authorize script (press Advanced when stuck)
+//
+//  Remarks:
+//    - This script can take a while to execute, therefor I recommend
+//      choosing a daily trigger at a time you won't access the file
+//    - Because of a execution time limit I recommend defining meaningfull
+//      settings, you should try to limit the number of folders to 2000
+//    - This script parses around 4 folders per second
+// 
+
+
+// SETTINGS
+
+// ignore folders that are more than x levels deep
+var MAXDEPTH = 7;
+
+// ignore folders with a name less than
+var MINFOLDERNAMELENGTH = 3;
+
+// width of indentation per level
+var INDENTATIONWIDTH = 25;
+
+// uses "regex", between forward slashes & add piple symbol "|" between each option
+var IGNOREPATTERN = /Join Files|Google Photos/;
+
+
+
+
+// CODE
+
+var startTime = (new Date()).getTime();
+var scriptProperties = PropertiesService.getScriptProperties();
+var sheet = SpreadsheetApp.getActiveSheet();
+
+var minCount = -1;
+var count = 0;
+
+var finished = true;
+
+function startNewTOC() {
+
+  // setup new sheet
+  sheet.clear();
+  sheet.appendRow([" "]);
+  var protection = sheet.protect().setDescription('Read Only');
+  protection.setWarningOnly(true);
+  var range = sheet.getRange(2,2,sheet.getMaxRows()-1,MAXDEPTH-1);
+  range.setBorder(false, false, false, true, true, false, "#bbb",  SpreadsheetApp.BorderStyle.SOLID);
+  range.setVerticalAlignment("middle");
+  for (var i=0;i<MAXDEPTH+1;i++) {
+    sheet.setColumnWidth(i+1, INDENTATIONWIDTH);
+  }
+
+  scriptProperties.setProperty("current", -1);
+  startLoop();
+}
+
+function startLoop() {
+  
+  // remove trigger
+  var allTriggers = ScriptApp.getProjectTriggers();
+  for (var i = 0; i < allTriggers.length; i++) {
+    if (allTriggers[i].getHandlerFunction() == "startLoop") {
+      ScriptApp.deleteTrigger(allTriggers[i]);
+      break;
+    }
+  }
+  
+  try {
+    
+    // load previous position
+    var current = scriptProperties.getProperty('current');
+    if (current > count)
+      minCount = current;
+    
+    var thisId = SpreadsheetApp.getActive().getId();
+    var thisFile = DriveApp.getFileById(thisId);
+    var parentFolder = thisFile.getParents().next();
+    processChildren(parentFolder, 0);
+    
+    if (finished) {
+      sheet.appendRow([" "]);
+      sheet.appendRow(["Finished at: "+new Date]);
+    }
+    
+  } catch (e) {
+    Logger.log(e.toString());
+  }
+}
+
+function processChildren(parent, level) {
+  
+  // loop over children
+  var childFolders = parent.getFolders();
+  while (childFolders.hasNext()) {
+    var childFolder = childFolders.next();
+    
+    // if execution time is up
+    var currTime = (new Date()).getTime();
+    if (currTime - startTime >= 5.25*60*1000 && count > minCount-1) { // 5.25 mins
+      
+      scriptProperties.setProperty("current", count+1);
+      
+      var allTriggers = ScriptApp.getProjectTriggers();
+      for (var i = 0; i < allTriggers.length; i++) {
+        if (allTriggers[i].getHandlerFunction() == "startLoop") {
+          ScriptApp.deleteTrigger(allTriggers[i]);
+        }
+      }
+      
+      ScriptApp.newTrigger("startLoop")
+        .timeBased()
+        .at(new Date(currTime+3*60*1000))
+        .create();
+      
+      finished = false;
+      break;
+      
+    } else {
+      
+      // parse folder
+      var name = childFolder.getName();
+      if ( name.length < MINFOLDERNAMELENGTH || name.match(IGNOREPATTERN) )
+        continue;
+      
+      count++;
+      
+      // only add row when not yet added
+      if (count > minCount-1)
+        addRow(name, childFolder.getUrl(), level);
+      
+      // Recursive call for any sub-folders
+      if (level < MAXDEPTH-1)
+        processChildren(childFolder, level+1);
+    }
+    
+  }
+}
+
+var previousLevel = 0;
+
+function addRow(name, url, level) {
+     
+  // make row
+  var data = [];
+  for (var i=0; i < level+1; i++)
+    data.push("");
+  data.push('=HYPERLINK("'+url+'","'+name+'")'); // remove grid to right
+  
+  // append row
+  sheet.appendRow(data);
+  
+  // remove borders to the right
+  var r = sheet.getRange(count+1,level+3,1,MAXDEPTH+1);
+  r.setBorder(false, false, false, false, false, false, null, null);
+  
+  previousLevel = level;
+}
+
+function setup() {}
