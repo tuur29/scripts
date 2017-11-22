@@ -104,9 +104,20 @@ function processChildren(parent, level) {
   
   // loop over children
   var childFolders = parent.getFolders();
+  var children = [];
   while (childFolders.hasNext()) {
-    var childFolder = childFolders.next();
-    
+    children.push(childFolders.next());
+  }
+  
+  // sorting
+  children.sort(
+    function(a,b) {
+      return (a.getName() > b.getName()) ? 1 : ((b.getName() > a.getName()) ? -1 : 0);
+    }
+  );
+  
+  for (var k=0; k<children.length;k++) {
+    var childFolder = children[k];
     // if execution time is up
     var currTime = (new Date()).getTime();
     if (currTime - startTime >= 5.25*60*1000 && count > minCount-1) { // 5.25 mins
