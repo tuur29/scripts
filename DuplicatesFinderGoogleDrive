@@ -1,0 +1,139 @@
+// 
+//  Duplicate finder for Google Drive folders
+//  This script will find and list all duplicate files (same name & size).
+//
+//  How to use:
+//    1. Make a new Google sheet in a Google Drive folder
+//    2. Open the Script Editor under the Tools menu
+//    3. Paste the contents of this file in the new window
+//    4. Select the function "start" at the top and press the play icon
+//    5. Follow the steps to authorize script (press Advanced when stuck)
+//    6. Let it run, a timestamp will be added at the bottom when it's finished
+//    7. Optionally you can add a trigger under Edit > Current project triggers
+//
+
+// CODE
+
+var startTime = (new Date()).getTime();
+var scriptProperties = PropertiesService.getScriptProperties();
+var sheet = SpreadsheetApp.getActiveSheet();
+
+var finished = true;
+var loggedFiles = [];
+
+function start() {
+
+  // setup new sheet
+  sheet.clear();
+  sheet.appendRow([" "]);
+  sheet.setColumnWidth(1, 300);
+  sheet.setColumnWidth(2, 200);
+  var protection = sheet.protect().setDescription('Read Only');
+  protection.setWarningOnly(true);
+  
+  scriptProperties.setProperty("token", "");
+  startLoop();
+}
+
+function startLoop() {
+  
+  // remove trigger
+  var allTriggers = ScriptApp.getProjectTriggers();
+  for (var i = 0; i < allTriggers.length; i++) {
+    if (allTriggers[i].getHandlerFunction() == "startLoop") {
+      ScriptApp.deleteTrigger(allTriggers[i]);
+      break;
+    }
+  }
+  
+  try {
+    
+    // load previous position
+    var token = scriptProperties.getProperty('token');
+    var allFiles;
+    
+    if (token == "")
+      allFiles = DriveApp.getFiles();
+    else
+      allFiles = DriveApp.continueFileIterator(token);
+    
+    while (allFiles.hasNext()) {
+      var c = processFile(allFiles.next(), allFiles);
+      if (!c) {
+        break;
+      }
+    }
+    
+    if (finished) {
+      sheet.appendRow([" "]);
+      sheet.appendRow(["Finished at: "+ new Date]);
+      scriptProperties.setProperty("token", "");
+    }
+    
+  } catch (e) {
+    Logger.log(e.toString());
+  }
+}
+
+function processFile(file, allFiles) {
+  
+  var currTime = (new Date()).getTime();
+  if (currTime - startTime >= 5.25*60*1000) { // 5.25 mins
+    
+    scriptProperties.setProperty("token", allFiles.getContinuationToken());
+    
+    var allTriggers = ScriptApp.getProjectTriggers();
+    for (var i = 0; i < allTriggers.length; i++) {
+      if (allTriggers[i].getHandlerFunction() == "startLoop") {
+        ScriptApp.deleteTrigger(allTriggers[i]);
+      }
+    }
+    
+    ScriptApp.newTrigger("startLoop")
+    .timeBased()
+    .at(new Date(currTime+3*60*1000))
+    .create();
+    
+    finished = false;
+    
+    return false;
+    
+  } else {
+    
+    // only add row when not yet added
+    var name = file.getName();
+    var size = file.getSize();
+    
+    var log = [name, size];
+    
+    for (var i=0; i< loggedFiles.length; i++) {
+      if (loggedFiles[i][0] == name && loggedFiles[i][1] == size)
+        return true;
+    }
+    
+    loggedFiles.push(log);
+    
+    var resultsIterator = DriveApp.getFilesByName(name);
+    var results = [];
+    while (resultsIterator.hasNext()) {
+      var posdupe = resultsIterator.next();
+      if (posdupe.getSize() == size) {
+        results.push(posdupe);
+      }
+    }
+    
+    if (results.length > 1) {
+      for (var i=0; i< results.length; i++) {
+        var data = ['=HYPERLINK("'+results[i].getUrl()+'","'+results[i].getName()+'")'];
+        var parent = results[i].getParents().next();
+        data.push('=HYPERLINK("'+parent.getUrl()+'","'+parent.getName()+'")');
+        sheet.appendRow(data);
+      }
+      sheet.appendRow([" "]);
+    }
+    
+    return true;
+    
+  }
+  
+}
