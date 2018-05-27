@@ -21,79 +21,106 @@
 
 // CODE
 
+var startTime = (new Date()).getTime();
 var prop = PropertiesService.getScriptProperties();
 var lasttimestamp = prop.getProperty('lasttimestamp');
+var matches = [];
+var earlyexit = false;
 
 function CheckTrashedItemsWithMultipleParents() {
-  
-  var matches = [];
   
   var files = DriveApp.getTrashedFiles();
   var folders = DriveApp.getTrashedFolders();
   
   matches = matches.concat( loop(files) );
-  matches = matches.concat( loop(folders) );
+  matches = matches.concat( loop(folders, true) );
   
   if (matches.length > 0) {
-  
-    // notify matches
-    var emailAddress = Session.getActiveUser().getEmail();
-    var subject = "Trashed items with multiple parents";
-    
-    var plainmessage = "These files and folders have multiple parents and were trashed:\n\n";
-    var htmlmessage = "<p>" + plainmessage + "<p><ul>";
-    for (var i = 0; i < matches.length; i++) {
-      var item = matches[i];
-      plainmessage += item.getName() + "\n";
-      htmlmessage += "<li><a href=" + item.getUrl() + ">" + item.getName() + "</a></li>";
-    }
-    var timestamp = "\nSent on: " + Utilities.formatDate(new Date(), 'Europe/Brussels', 'MMMM dd, yyyy HH:mm:ss');
-    plainmessage += timestamp;
-    htmlmessage += "</ul><p>" + timestamp + "</p>";
-    
-    MailApp.sendEmail(emailAddress, subject, plainmessage, {
-      htmlBody: htmlmessage
-    });
-    prop.setProperty("lasttimestamp", matches[0].getLastUpdated().getTime());
-    
+    sendmail();
   }
 }
 
-function loop(iterator) {
+// helpers
+
+function loop(iterator, arefolders) {
   
-  var matches = [];
+  var partialmatches = [];
   var totalcount = 0;
   
    while (iterator.hasNext() && totalcount < 100) {
      
-     var item = iterator.next();
-     
-     if (item.getLastUpdated().getTime() <= lasttimestamp) {
-       Logger.log("skip after "+ item.getName() + " timestamp " + item.getLastUpdated());
-       return matches;
+     var currTime = (new Date()).getTime();
+     if (earlyexit || currTime - startTime >= 5.25*60*1000) { // 5.25 mins
+       earlyexit = true;
+       break;
      }
      
-     var parents = item.getParents();
-     var parentcount = 0;
-     
-     Logger.log("doing "+ item.getName());
-     
-     try {
-       while(parents.hasNext()) {
-         parents.next();
-         parentcount++;
-       }
-     } catch(e) {}
-     
-     if (parentcount > 1) {
-       matches.push(item);
-       Logger.log("!found "+ item.getName());
-     }
+     var result = handle(iterator.next());
+     if (result === null)
+       break;
+     if (result)
+       partialmatches = partialmatches.concat(result);
      
      totalcount++;
   }
   
-  return matches;
+  return partialmatches;
 }
 
-function setup() {}
+function handle(item) {
+
+  if (item.getLastUpdated().getTime() <= lasttimestamp) {
+    Logger.log("skip after "+ item.getName() + " timestamp " + item.getLastUpdated());
+    return null;
+  }
+  
+  Logger.log("doing "+ item.getName());
+  
+  var parents = item.getParents();
+  var parentcount = 0;
+  
+  try {
+    while(parents.hasNext()) {
+      parents.next();
+      parentcount++;
+    }
+  } catch(e) {}
+  
+  if (parentcount > 1) {
+    Logger.log("!found "+ item.getName());
+    return [item];
+  }
+  
+  return false;
+}
+
+function sendmail() {
+  
+  var emailAddress = Session.getActiveUser().getEmail();
+  var subject = "Trashed items with multiple parents";
+  
+  var plainmessage = "These files and folders have multiple parents and were trashed:\n\n";
+  var htmlmessage = "<p>" + plainmessage + "<p><ul>";
+  
+  if (earlyexit) {
+    plainmessage = "WARNING: The script did not finish completely!\nYou should clean out your bin and rerun the script manually.\nThe oldest file checked is the one at the bottom of the following list.\n\n" + plainmessage;
+    htmlmessage = "<p style='color:red;font-size:1.5em;'>The script did not finish completely!<br>You should clean out your bin and rerun this script manually.<br>The oldest file checked is the one at the bottom of the following list.</p>" + htmlmessage;
+  }
+  
+  for (var i = 0; i < matches.length; i++) {
+    var item = matches[i];
+    plainmessage += item.getName() + "\n";
+    htmlmessage += "<li><a href=" + item.getUrl() + ">" + item.getName() + "</a></li>";
+  }
+  var timestamp = "\nSent on: " + Utilities.formatDate(new Date(), 'Europe/Brussels', 'MMMM dd, yyyy HH:mm:ss');
+  plainmessage += timestamp;
+  htmlmessage += "</ul><p>" + timestamp + "</p>";
+  
+  MailApp.sendEmail(emailAddress, subject, plainmessage, {
+    htmlBody: htmlmessage
+  });
+  Logger.log(plainmessage);
+  if (matches.length > 0)
+    prop.setProperty("lasttimestamp", matches[0].getLastUpdated().getTime());
+  
+}
