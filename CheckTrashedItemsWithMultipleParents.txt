@@ -1,0 +1,99 @@
+// 
+// This scripts checks the 100 most recent removed files and folders (200 in total)
+// and sends an email when it finds items that have/had multiple parents.
+// 
+// How to use:
+//    1. Make a new Google Apps script (under "More" in Google Drive Web interface)
+//    2. Rename the file, paste the contents of this script and save
+//    3. Open the trigger settings under Edit > Current Project Triggers
+//    4. Add a new trigger, select "CheckTrashedItemsWithMultipleParents" and "Time driven"
+//    5. Enter your preferred time and click save
+//    6. Select the function "setup" at the top and press the play icon
+//    7. Follow the steps to authorize script (press Advanced when stuck)
+//
+//  Remarks:
+//    - This script can take a while to execute, therefor I recommend
+//      choosing a daily trigger
+//    - This script parses around 4 items per second
+// 
+
+
+
+// CODE
+
+var prop = PropertiesService.getScriptProperties();
+var lasttimestamp = prop.getProperty('lasttimestamp');
+
+function CheckTrashedItemsWithMultipleParents() {
+  
+  var matches = [];
+  
+  var files = DriveApp.getTrashedFiles();
+  var folders = DriveApp.getTrashedFolders();
+  
+  matches = matches.concat( loop(files) );
+  matches = matches.concat( loop(folders) );
+  
+  if (matches.length > 0) {
+  
+    // notify matches
+    var emailAddress = Session.getActiveUser().getEmail();
+    var subject = "Trashed items with multiple parents";
+    
+    var plainmessage = "These files and folders have multiple parents and were trashed:\n\n";
+    var htmlmessage = "<p>" + plainmessage + "<p><ul>";
+    for (var i = 0; i < matches.length; i++) {
+      var item = matches[i];
+      plainmessage += item.getName() + "\n";
+      htmlmessage += "<li><a href=" + item.getUrl() + ">" + item.getName() + "</a></li>";
+    }
+    var timestamp = "\nSent on: " + Utilities.formatDate(new Date(), 'Europe/Brussels', 'MMMM dd, yyyy HH:mm:ss');
+    plainmessage += timestamp;
+    htmlmessage += "</ul><p>" + timestamp + "</p>";
+    
+    MailApp.sendEmail(emailAddress, subject, plainmessage, {
+      htmlBody: htmlmessage
+    });
+    prop.setProperty("lasttimestamp", matches[0].getLastUpdated().getTime());
+    
+  }
+}
+
+function loop(iterator) {
+  
+  var matches = [];
+  var totalcount = 0;
+  
+   while (iterator.hasNext() && totalcount < 100) {
+     
+     var item = iterator.next();
+     
+     if (item.getLastUpdated().getTime() <= lasttimestamp) {
+       Logger.log("skip after "+ item.getName() + " timestamp " + item.getLastUpdated());
+       return matches;
+     }
+     
+     var parents = item.getParents();
+     var parentcount = 0;
+     
+     Logger.log("doing "+ item.getName());
+     
+     try {
+       while(parents.hasNext()) {
+         parents.next();
+         parentcount++;
+       }
+     } catch(e) {}
+     
+     if (parentcount > 1) {
+       matches.push(item);
+       Logger.log("!found "+ item.getName());
+     }
+     
+     totalcount++;
+  }
+  
+  return matches;
+}
+
+function setup() {}
