@@ -12,12 +12,28 @@
 #    @reboot /home/user/dashbuttonlistener.sh > /dev/null 2>&1
 #
 
+
+
+# CODE
+
+lastrun=$(date +%s) 
+timeout=2
+
 sudo tcpdump ether "dst host FF:FF:FF:FF:FF:FF and (port 67 or port 68)" -e -i eth0 -n -p -t -l | while read line; do
 
+    # allow only one call per timeout
+    tmp=$(( $(date +%s) - $timeout ))
+    if [ "$tmp" -le "$lastrun" ]; then
+        echo "Too soon: $tmp <= $lastrun"
+        continue;
+    fi
+
+    # run command if button with mac address is pressed
     if [[ "$line" =~ ^ab:cd:ef:gh:ij:kl ]]; then
 
         echo "Button Pressed, change this to a usefull command";
 
     fi
 
+    lastrun=$(date +%s);
 done
