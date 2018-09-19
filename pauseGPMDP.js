@@ -35,13 +35,25 @@ if (key) {
     ws.on('open', function open() {
         // authenticate
         ws.send('{"namespace": "connect","method": "connect","arguments": ["'+appname+'","'+key+'"]}');
-        // send pause command
-        ws.send('{"namespace": "playback","method": "playPause"}');
-        setTimeout(() => {
-            ws.close();
-            process.exit();
-        }, 100);
     });
+
+    // listen for api key
+    ws.on('message', function incoming(data) {
+        if (data.indexOf('"channel":"playState"') > -1) {
+            let json = JSON.parse(data);
+            if (json.payload) { // if playing
+
+                // send pause command
+                ws.send('{"namespace": "playback","method": "playPause"}');
+
+            }
+        }
+    });
+
+    setTimeout(() => {
+        ws.close();
+        process.exit();
+    }, 750);
 
 } else {
 
