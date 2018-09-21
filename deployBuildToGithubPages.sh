@@ -45,5 +45,25 @@ if [[ "$(git status)" == *"nothing to commit, working tree clean"* ]]; then
     fi
 
 else
-    echo -e "\nThere were uncomitted changes! Please commit or discard them before deploying.\n"
+    echo -e "\nThere were uncommitted changes!"
+    printf "Do you want to deploy these as well? (y/n):  "
+
+    read commit
+    if [[ "$commit" == "y" ]]; then
+        git add .
+        git commit -m "Temp"
+        ./$0 undocommit
+    else
+        git stash
+        ./$0 undostash
+    fi
+fi
+
+
+if [[ "$1" == "undocommit" ]]; then
+    git reset HEAD^
+fi
+
+if [[ "$1" == "undostash" ]]; then
+    git stash apply
 fi
