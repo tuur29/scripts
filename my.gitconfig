@@ -1,0 +1,65 @@
+[user]
+	name = 
+	email = 
+	username = 
+
+[core]
+	editor = nano
+	autocrlf = input
+	eol = lf
+	excludesfile = ~/.gitignore_global
+
+[url "https://github.com/"]
+	insteadOf = gh:
+[url "https://gist.github.com/"]
+	insteadOf = gist:
+[url "https://bitbucket.org/"]
+	insteadOf = bb:
+
+[filter "lfs"]
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+
+[alias]
+
+	# Shortcuts
+	discard = reset --hard
+	undo = reset --soft HEAD~1
+	commitall = commit -a -m
+	history = log --compact-summary --
+	find = ! git ls-files | grep
+	search = grep -i
+	stage = add
+	unstage = reset HEAD --
+	in = pull --dry-run
+	out = log --branches --not --remotes
+	tags = tag -l
+	root = rev-parse --show-toplevel
+	branches = branch -av
+	details = log -n1 -p --format=fuller
+
+	# Functions
+	amend = ! git log -n 1 --pretty=tformat:%s%n%n%b | git commit -F - --amend
+	alias = ! git config --get-regexp ^alias\\. | sed -e s/^alias\\.// -e s/\\ /\\ =\\ / | grep --color=always -E '[a-zA-Z]+ =' | less -S -R
+	backup = ! sh -c 'git bundle create ../$(basename $PWD)_$(date "+%s").git-bundle --all' -
+	fullreset = ! git fetch origin && git reset --hard @{u}
+	graph = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)'
+	clonehub = ! sh -c 'git clone git://github.com/$1 $(basename $1)' -
+	countchanges = ! git log --all -M -C --name-only --format='format:' "$@" | sort | grep -v '^$' | uniq -c | sort | awk 'BEGIN {print "count,file"} {print $1 "," $2}'
+	issues = ! start $(echo https://github.$(git config remote.origin.url | cut -f2 -d.)/issues)
+
+
+	# Abbreviations
+	br = branch --all
+	brd = branch -d
+	cm = commit -m
+	cma = ! git commitall
+	clg = ! git clonehub
+	check = checkout
+	f = fetch --all --prune
+	st = status --short
+	ps = push
+	pl = pull
+	t = tag
