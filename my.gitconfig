@@ -46,8 +46,9 @@
 	backup = ! sh -c 'git bundle create ../$(basename $PWD)_$(date "+%s").git-bundle --all' -
 	fullreset = ! git fetch origin && git reset --hard @{u}
 	graph = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)'
+	changelog = log --graph --all --date=local --name-status --format=format:'%C(cyan)%h%C(reset) - %C(red)%d%C(reset) - %C(white)(%ai)%C(reset) %C(white dim)%s%C(reset) %C(white) -- %an%C(reset)' --abbrev-commit --color
 	clonehub = ! sh -c 'git clone git://github.com/$1 $(basename $1)' -
-	countchanges = ! git log --all -M -C --name-only --format='format:' "$@" | sort | grep -v '^$' | uniq -c | sort | awk 'BEGIN {print "count,file"} {print $1 "," $2}'
+	countchanges = ! git log --all -M -C --name-only --format='format:' "$@" | sort | grep -v '^$' | uniq -c | sort | awk 'BEGIN {print "count,file"} {print $1 "," $2}' | less
 	issues = ! start $(echo https://github.$(git config remote.origin.url | cut -f2 -d.)/issues)
 
 
