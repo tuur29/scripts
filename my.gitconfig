@@ -39,6 +39,7 @@
 	root = rev-parse --show-toplevel
 	branches = branch -av
 	details = log -n1 -p --format=fuller
+	update = ! git fetch --all --prune && git pull
 
 	# Functions
 	amend = ! git log -n 1 --pretty=tformat:%s%n%n%b | git commit -F - --amend
