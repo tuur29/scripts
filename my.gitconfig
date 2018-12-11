@@ -25,7 +25,7 @@
 [alias]
 
 	# Shortcuts
-	discard = reset --hard
+	discard = ! git add . && git reset --hard
 	undo = reset --soft HEAD~1
 	commitall = commit -a -m
 	history = log --compact-summary --
