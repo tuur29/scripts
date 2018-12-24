@@ -27,7 +27,7 @@
 	# Shortcuts
 	discard = ! git add . && git reset --hard
 	undo = reset --soft HEAD~1
-	commitall = commit -a -m
+	commitall = ! git add . && git commit -a -m
 	history = log --compact-summary --
 	find = ! git ls-files | grep
 	search = grep -i
