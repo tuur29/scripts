@@ -1,3 +1,7 @@
+# You can include a gitconfig into your own by adding the following line at the top of your gitconfig
+# [include]
+#	path = "C:/github/scripts/my.gitconfig"
+
 [user]
 	name = 
 	email = 
@@ -25,31 +29,35 @@
 [alias]
 
 	# Shortcuts
-	discard = ! git add . && git reset --hard
-	undo = reset --soft HEAD~1
+	abort = merge --abort
+	branches = branch -av
+	branchname = rev-parse --abbrev-ref HEAD
+	changedfiles = ! git add . && git diff --cached --stat
+	changes = ! git add . && git diff --cached -U4 --compact-summary
 	commitall = ! git add . && git commit -a -m
-	history = log --compact-summary --
+	details = log -n1 -p --format=fuller
+	discard = ! git add . && git reset --hard
 	find = ! git ls-files | grep
+	history = log --compact-summary --
+	out = log --branches --not --remotes
+	pushnew = push -u origin HEAD
+	root = rev-parse --show-toplevel
 	search = grep -i
 	stage = add
-	unstage = reset HEAD --
-	in = pull --dry-run
-	out = log --branches --not --remotes
 	tags = tag -l
-	root = rev-parse --show-toplevel
-	branches = branch -av
-	details = log -n1 -p --format=fuller
-	pushnew = push -u origin HEAD
+	undo = reset --soft HEAD~1
+	unstage = reset HEAD --
 
 	# Functions
-	amend = ! git log -n 1 --pretty=tformat:%s%n%n%b | git commit -F - --amend
 	alias = ! git config --get-regexp ^alias\\. | sed -e s/^alias\\.// -e s/\\ /\\ =\\ / | grep --color=always -E '[a-zA-Z]+ =' | less -S -R
+	amend = ! git log -n 1 --pretty=tformat:%s%n%n%b | git commit -F - --amend
 	backup = ! sh -c 'git bundle create ../$(basename $PWD)_$(date "+%s").git-bundle --all' -
-	fullreset = ! git fetch origin && git reset --hard @{u}
-	graph = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)'
 	changelog = log --graph --all --date=local --name-status --format=format:'%C(cyan)%h%C(reset) - %C(red)%d%C(reset) - %C(white)(%ai)%C(reset) %C(white dim)%s%C(reset) %C(white) -- %an%C(reset)' --abbrev-commit --color
 	clonehub = ! sh -c 'git clone git://github.com/$1 $(basename $1)' -
 	countchanges = ! git log --all -M -C --name-only --format='format:' "$@" | sort | grep -v '^$' | uniq -c | sort | awk 'BEGIN {print "count,file"} {print $1 "," $2}' | less
+	fullreset = ! git fetch origin && git reset --hard @{u}
+	graph = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)'
+	in = ! sh -c 'git log --shortstat HEAD..origin/$(git branchname)'
 	issues = ! start $(echo https://github.$(git config remote.origin.url | cut -f2 -d.)/issues)
 	rembrgrep = ! sh -c 'git branch | grep $1 | xargs git branch -D' -
 
@@ -57,13 +65,14 @@
 	# Abbreviations
 	br = branch --all
 	brd = branch -d
+	c = ! git changes
+	check = checkout
+	clg = ! git clonehub
 	cm = commit -m
 	cma = ! git commitall
-	clg = ! git clonehub
-	check = checkout
 	f = fetch --all --prune
-	st = status --short
-	ps = push
-	pl = pull
-	t = tag
 	p = ! git fetch --all --prune && git pull
+	pl = pull
+	ps = push
+	st = status --short
+	t = tag
