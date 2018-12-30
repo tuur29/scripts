@@ -6,12 +6,11 @@ This is a cheatsheet of some of my frequent shell commands so I don't have to sc
 
 ## Mounting USB Drive
 
-Finding device and partition
+Finding device and seeing usage
 ```
-lsblk
-sudo blkid
-sudo fdisk -l
+df -h
 ```
+Or `lsblk`
 
 Mount
 ```
@@ -37,9 +36,9 @@ tail -f nohup.out
 
 Getting task PID
 ```
-pgrep -i 'nohup|curl|download'
-
+pgrep 'nohup|curl|Down'
 ```
+
 Killing task
 ```
 kill 000 000
