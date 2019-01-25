@@ -16,6 +16,11 @@ Note: most of the scripts contain more info and a guide at the top of the file.
 [Link](./CustomSearchEngines.md)
 or read [more info](https://support.google.com/chrome/answer/95426?co=GENIE.Platform%3DDesktop&hl=en)
 
+## Visual Studio Code extensions
+> A list of all my VSC extensions
+
+[Link](./VSCextentions.md)
+
 ## Bash Cheat Sheet
 
 > A cheatsheet of some of my frequent shell commands so I don't have to scour StackOverflow each time.
