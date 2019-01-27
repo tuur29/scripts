@@ -77,3 +77,15 @@ Calculate the actual result by diving bytes copied by real time
 ```
 time sh -c "dd if=/dev/zero of=testfile bs=100k count=1k && sync"
 ```
+
+## Clean old Ubuntu kernels
+
+```
+echo $(dpkg --list | grep linux-image | awk '{ print $2 }' | sort -V | sed -n '/'`uname -r`'/q;p') $(dpkg --list | grep linux-headers | awk '{ print $2 }' | sort -V | sed -n '/'"$(uname -r | sed "s/\([0-9.-]*\)-\([^0-9]\+\)/\1/")"'/q;p') | xargs sudo dpkg --purge
+```
+
+## Find inode count
+
+```
+sudo find . -xdev -type f | cut -d "/" -f 2 | sort | uniq -c | sort -n
+```
