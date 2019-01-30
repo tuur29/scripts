@@ -10,6 +10,11 @@ Note: most of the scripts contain more info and a guide at the top of the file.
 
 [Link](./my.gitconfig)
 
+## Code Snippets
+> Some useful JS, PHP, HTML, CSS and General code snippets for Visual Studio Code
+
+[Link](./global.code-snippets)
+
 ## Custom Search Engines
 > A list of all my custom search engines in Chrome.
 

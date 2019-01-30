@@ -1,0 +1,97 @@
+{
+	// ALL
+	"Accents": {
+		"prefix": "accent",
+		"body": [
+			"${1|é,è,ë,ê,á,à,â,ï,ö,ü|}"
+		],
+		"description": "Generate a paragraph"
+	},
+	"Long Lorem Ipsum": {
+		"prefix": "lorem",
+		"body": [
+			"Lorem$0 ipsum dolor sit amet, consectetur adipiscing elit. Erat enim Polemonis. Iam contemni non poteris. Equidem etiam Epicurum, in physicis quidem, Democriteum puto. An quod ita callida est, ut optime possit architectari voluptates? Iam quae corporis sunt, ea nec auctoritatem cum animi partibus, comparandam et cognitionem habent faciliorem. Duo Reges: constructio interrete. Sine ea igitur iucunde negat posse se vivere? Cur tantas regiones barbarorum pedibus obiit, tot maria transmisit? Bonum incolumis acies: misera caecitas. Cur tantas regiones barbarorum pedibus obiit, tot maria transmisit?"
+		],
+		"description": "Generate a paragraph"
+	},
+	"Short Lorem Ipsum": {
+		"prefix": "lorem",
+		"body": [
+			"Lorem$0 ipsum dolor sit amet, consectetur adipiscing elit. Erat enim Polemonis."
+		],
+		"description": "Generate a paragraph"
+	},
+
+	// JS
+	"Print to console": {
+		"prefix": "cl",
+		"body": [
+			"console.log(${1});$0"
+		],
+		"description": "Log output to console",
+		"scope": "javascript,typescript,html,php,react,typescriptreact"
+	},
+
+	// HTML
+	"Add php tag": {
+		"prefix": "php",
+		"body": [
+			"<?php $0 ?>"
+		],
+		"description": "Add a php tag",
+		"scope": "html"
+	},
+
+	// PHP
+	"Add GET variable": {
+		"prefix": "get",
+		"body": [
+			"$$_GET['$1']"
+		],
+		"description": "Add a GET variable",
+		"scope": "php"
+	},
+	"Add POST variable": {
+		"prefix": "post",
+		"body": [
+			"$$_POST['$1']"
+		],
+		"description": "Add a POST variable",
+		"scope": "php"
+	},
+	"Show all errors": {
+		"prefix": "errors",
+		"body": [
+			"ini_set('display_errors', 1);",
+			"ini_set('display_startup_errors', 1);",
+			"error_reporting(E_ALL);",
+			"$0"
+		],
+		"description": "Show all errors",
+		"scope": "php"
+	},
+	"print_r": {
+		"prefix": "printr",
+		"body": [
+			"print_r($0, true)"
+		],
+		"description": "Show all errors",
+		"scope": "php"
+	},
+
+	// CSS
+	"Add absolute positioning properties": {
+		"prefix": "posabs",
+		"body": [
+			"position: absolute;",
+			"top: 0;",
+			"right: 0;",
+			"bottom: 0;",
+			"left: 0;",
+			"$0",
+		],
+		"description": "Add absolute positioning properties",
+		"scope": "css,less,scss"
+	},
+
+}
