@@ -49,7 +49,7 @@
 	unstage = reset HEAD --
 
 	# Functions
-	alias = ! git config --get-regexp ^alias\\. | sed -e s/^alias\\.// -e s/\\ /\\ =\\ / | grep --color=always -E '[a-zA-Z]+ =' | less -S -R
+	alias = ! git config --get-regexp ^alias\\. | sed -e s/^alias\\.// -e s/\\ /\\ =\\ / | grep --color=always -E '^[^=]+=' | less -S -R
 	amend = ! git log -n 1 --pretty=tformat:%s%n%n%b | git commit -F - --amend
 	backup = ! sh -c 'git bundle create ../$(basename $PWD)_$(date "+%s").git-bundle --all' -
 	changelog = log --graph --all --date=local --name-status --format=format:'%C(cyan)%h%C(reset) - %C(red)%d%C(reset) - %C(white)(%ai)%C(reset) %C(white dim)%s%C(reset) %C(white) -- %an%C(reset)' --abbrev-commit --color
