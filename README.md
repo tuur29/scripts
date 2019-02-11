@@ -10,6 +10,10 @@ Note: most of the scripts contain more info and a guide at the top of the file.
 
 [Link](./my.gitconfig)
 
+## My ZSH config
+
+[Link](./my.zshrc)
+
 ## Code Snippets
 > Some useful JS, PHP, HTML, CSS and General code snippets for Visual Studio Code
 
