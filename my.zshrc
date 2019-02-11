@@ -1,105 +1,60 @@
 
-# Setup
-# 1. `git clone https://github.com/robbyrussell.git .oh-my-zsh`
-# 2. Optional: edit `ZSH` variable to correct folder
-# 3. Optional: change default shell: `chsh -s $(which zsh)`
+# HOW TO
+# 1. Install antigen: `mkdir ~/.antigen; curl -L git.io/antigen > ~/.antigen/antigen.zsh`
+# 2. You could include this file with `source /path/to/my.zshrc` into your own config
+# 3. Start zsh, packages will be installed during first run
+# 4. fix `compaudit` errors with `sudo chmod -R 755 ~/.antigen`
 
-# First clone oh-my-zsh and change the ZSH variable to the correct path to below.
-# You can use `source /path/to/my.zshrc` to load this file into your own config.
-# Cheat sheet: https://github.com/robbyrussell/oh-my-zsh/wiki/Cheatsheet
+# SETUP
 
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+source ~/.antigen/antigen.zsh
+antigen use oh-my-zsh
 
-# Path to your oh-my-zsh installation.
-export ZSH="$HOME/.oh-my-zsh"
-export DEFAULT_USER="$(whoami)"
+# - Setup theme
+THEME=agnoster
+antigen list | grep $THEME; if [ $? -ne 0 ]; then antigen theme $THEME; fi # allows reloading config
 
-# Set name of the theme to load --- or "random"
-ZSH_THEME="agnoster"
+# - Install packages
+antigen bundle zdharma/fast-syntax-highlighting
+antigen bundle zsh-users/zsh-autosuggestions
+antigen bundle colored-man-pages
+antigen bundle akoenig/npm-run.plugin.zsh
+antigen bundle arzzen/calc.plugin.zsh
+antigen apply
 
-# Set list of themes to pick from when loading at random.
-# If set to an empty array, this variable will have no effect.
-# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
+# SETTINGS
+setopt auto_pushd # make cd push old dir in dir stack
+setopt pushd_ignore_dups # no duplicates in dir stack
+setopt inc_append_history # Add commands to history as they are entered, don't wait for shell to exit
+setopt hist_ignore_all_dups # Do not keep duplicate commands in history
+setopt bang_hist # !keyword
+setopt share_history # share hist between sessions
+setopt auto_cd # if command is a path, cd into it
 
-# Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
+unsetopt beep # no bell on error
+unsetopt list_beep # no bell on ambiguous completion
 
-# Uncomment the following line to use hyphen-insensitive completion.
-# Case-sensitive completion must be off. _ and - will be interchangeable.
-HYPHEN_INSENSITIVE="true"
+export SAVEHIST=1000
+export HISTSIZE=1000
 
-# Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
+# KEYBINDINGS
+# Some bindings added by oh-my-zsh (https://github.com/robbyrussell/oh-my-zsh/blob/master/lib/key-bindings.zsh)
 
-# Uncomment the following line to change how often to auto-update (in days).
-# export UPDATE_ZSH_DAYS=13
+bindkey -M emacs '^[[3;5~' kill-word
+bindkey -M emacs '^[[3^' kill-word
+bindkey -M emacs '^H' backward-kill-word
+# ctrl+backspace isn't possible, use ctr+w or alt+backspace
 
-# Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
 
-# Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
+# ALIASES (`alias` for overview)
 
-# Uncomment the following line to enable command auto-correction.
-ENABLE_CORRECTION="true"
-
-# Uncomment the following line to display red dots whilst waiting for completion.
-COMPLETION_WAITING_DOTS="true"
-
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
-
-# Uncomment the following line if you want to change the command execution time
-# stamp shown in the history command output.
-# You can set one of the optional three formats:
-# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-HIST_STAMPS="yyyy-mm-dd"
-
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
-
-# Which plugins would you like to load?
-# Standard plugins can be found in ~/.oh-my-zsh/plugins/*
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
-plugins=(
-  # git
-)
-
-source $ZSH/oh-my-zsh.sh
-
-# User configuration
-
-# export MANPATH="/usr/local/man:$MANPATH"
-
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
-
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
-
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
-
-# ssh
-# export SSH_KEY_PATH="~/.ssh/rsa_id"
-
-# Keybindings
-
-# Rebind home and end key
-bindkey "${terminfo[khome]}" beginning-of-line
-bindkey "${terminfo[kend]}" end-of-line
-
-# Aliases (command 'alias' lists all aliasses)
-alias derp="alias | sed -e 's/^alias\\.//g' -e 's/\\ /\\ =\\ /g' -e 's/=/ = /' | grep --color=always -E '^[^=]+=' | less -S -R"
-alias reload=". ~/.zshrc"
-alias g="git"
+# - Abbreviations
 alias l="ls -lhF"
+alias la="ls -lhF --all"
+alias g="git"
+alias h="history | grep --color=always -E '[0-9]+ ' | less +G"
+
+# - Meta
+alias reload="source ~/.zshrc" > /dev/null 2>&1 # TODO: doesn't really work well, better just exit and zsh
+unalias alias > /dev/null 2>&1
+alias alias="alias | sed -e 's/^alias\\.//g' -e 's/=/ = /' | grep --color=always -E '^[^=]+=' | less -S -R"
