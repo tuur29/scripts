@@ -37,6 +37,13 @@ unsetopt list_beep # no bell on ambiguous completion
 export SAVEHIST=1000
 export HISTSIZE=1000
 
+# hide computer name (but show when connected to ssh)
+prompt_context() {
+  if [[ "$USER" != "$DEFAULT_USER" || -n "$SSH_CLIENT" ]]; then
+    prompt_segment cyan black "%(!.%{%F{yellow}%}.)$USER"
+  fi
+}
+
 # KEYBINDINGS
 # Some bindings added by oh-my-zsh (https://github.com/robbyrussell/oh-my-zsh/blob/master/lib/key-bindings.zsh)
 
