@@ -103,6 +103,6 @@ alias h="history | grep --color=always -E '[0-9]+ ' | less +G"
 
 # - Meta
 alias colors='for i in {0..255}; do echo -en "\e[48;5;${i}m Color ${i}\e[0m \n" ; done | less'
-alias reload="source ~/.zshrc" > /dev/null 2>&1 # TODO: doesn't really work well, better just exit and zsh
+alias reload="source ~/.zshrc"
 unalias alias > /dev/null 2>&1
 alias alias="alias | sed -e 's/^alias\\.//g' -e 's/=/ = /' | grep --color=always -E '^[^=]+=' | less -S -R"
