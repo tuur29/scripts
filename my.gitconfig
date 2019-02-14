@@ -1,6 +1,8 @@
-# You can include a gitconfig into your own by adding the following line at the top of your gitconfig
-# [include]
-#	path = "C:/github/scripts/my.gitconfig"
+
+# TIPS:
+# - Use `git config credential.helper store` to save password (plaintext!)
+# - You can include this into your own gitconfig by adding this at the top of yours:
+# 	`[include] path = "C:/github/scripts/my.gitconfig"`
 
 [user]
 	name = 
