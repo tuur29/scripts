@@ -13,9 +13,6 @@
 	eol = lf
 	excludesfile = ~/.gitignore_global
 
-[credential]
-    helper = cache --timeout 86400 # one day
-
 [url "https://github.com/"]
 	insteadOf = gh:
 [url "https://gist.github.com/"]
