@@ -64,7 +64,7 @@
 	issues = ! start $(echo https://github.$(git config remote.origin.url | cut -f2 -d.)/issues)
 	rembrgrep = ! sh -c 'git branch | grep $1 | xargs git branch -D' -
 	syncfork = ! git fetch upstream && git merge upstream/$(git branchname)
-
+	authtest = ! ssh -T git@github.com
 
 	# Abbreviations
 	br = branch --all
