@@ -2,13 +2,13 @@
 # HOW TO
 # 1. Download a Powerline font (https://github.com/powerline/fonts) and set it as default
 # 2. Install antigen: `mkdir ~/.antigen; curl -L git.io/antigen > ~/.antigen/antigen.zsh`
-# 3. You could include this file with `source /path/to/my.zshrc` into your own config
+# 3. You could include this file with `source ~/scripts/my.zshrc` into your own config
 # 4. Start zsh, packages will be installed during first run
 # 5. fix compaudit errors with `sudo chmod -R 755 ~/.antigen`
 
 
 # SETUP
-THEME="powerlevel9k" # options are "powerlevel9k" or "agnoster"
+# THEME="powerlevel9k" # options are "powerlevel9k" or "agnoster", can be set here or in your own config
 source ~/.antigen/antigen.zsh
 
 
@@ -38,9 +38,11 @@ antigen bundle arzzen/calc.plugin.zsh
 
 
 # THEME
+THEME=${THEME:-agnoster} # set default value
+
 if [[ "$THEME" == "powerlevel9k" ]]; then
     # context
-    DEFAULT_USER="tuur"
+    DEFAULT_USER=$(whoami)
     POWERLEVEL9K_ALWAYS_SHOW_USER=true
     POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir vcs)
     POWERLEVEL9K_CONTEXT_DEFAULT_BACKGROUND="cyan"
@@ -55,11 +57,18 @@ if [[ "$THEME" == "agnoster" ]]; then
     antigen theme agnoster 
     antigen apply # placing of apply depends on theme
 
-    # hide computer name (but show when connected to ssh)
+    #DEFAULT_USER=$(whoami) # hide default user
     prompt_context() {
+        # hide computer name (but show when connected to ssh)
         if [[ "$USER" != "$DEFAULT_USER" || -n "$SSH_CLIENT" ]]; then
             prompt_segment cyan black "%(!.%{%F{yellow}%}.)$USER"
         fi
+    }
+
+    prompt_dir() {
+        # change colors
+        prompt_segment blue white '%~'
+        
     }
 fi
 
