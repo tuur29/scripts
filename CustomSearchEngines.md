@@ -6,7 +6,7 @@
 | BTDB                   | btdb      | http://btdb.to/q/%s                                                         | 
 | CanIUse                | caniuse   | http://caniuse.com/#search=%s                                               | 
 | Extensions             | ext       | http://extension.informer.com/%s                                            | 
-| Github Repos           | gh        | https://github.com/?q=%s                                                    | 
+| Github Repos           | gh        | https://github.com/%s                                                    | 
 | Gmail                  | gmail     | https://mail.google.com/mail/u/0/#search/%s                                 | 
 | Google Contacts        | contact   | https://contacts.google.com/search/%s                                       | 
 | Google Drive           | drive     | https://drive.google.com/drive/search?q=%s                                  | 
@@ -32,4 +32,5 @@
 | Wikipedia              | wiki      | http://en.wikipedia.org/w/index.php?search=%s                               | 
 | Wolfram Alpha          | calc      | http://www.wolframalpha.com/input/?i=%s                                     | 
 
-
+## Tips: 
+- Add [an extension](https://chrome.google.com/webstore/detail/dont-add-custom-search-en/dnodlcololidkjgbpeoleabmkocdhacc?hl=en) to disable the browsers behavior of adding custom search engines automatically
