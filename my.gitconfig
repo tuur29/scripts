@@ -1,6 +1,6 @@
 
 # TIPS:
-# - Use `git config credential.helper store` to save password (plaintext!)
+# - On windows WSL: `git config --global credential.helper "/mnt/c/Program\\ Files/Git/mingw64/libexec/git-core/git-credential-wincred.exe"`
 # - You can include this into your own gitconfig by adding this at the top of yours:
 # 	`[include] path = "C:/github/scripts/my.gitconfig"`
 
