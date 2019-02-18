@@ -19,6 +19,11 @@ Note: most of the scripts contain more info and a guide at the top of the file.
 
 [Link](./global.code-snippets)
 
+## Windows key remaps
+> A few small keybindings for windows made with AutoHotKey
+
+[Link](./winBindings.ahk)
+
 ## Custom Search Engines
 > A list of all my custom search engines in Chrome.
 
