@@ -101,6 +101,7 @@ alias la="ls -lhF --all"
 alias g="git"
 alias h="history | grep --color=always -E '[0-9]+ ' | less +G"
 alias c="clear"
+alias rr="ranger"
 
 # - Meta
 alias colors='for i in {0..255}; do echo -en "\e[48;5;${i}m Color ${i}\e[0m \n" ; done | less'
