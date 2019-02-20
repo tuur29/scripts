@@ -31,7 +31,7 @@
 	changes = ! git add . && git diff --cached -U4 --compact-summary
 	commitall = ! git add . && git commit -a -m
 	details = log -n1 -p --format=fuller
-	discard = ! git add . && git reset --hard
+	discard = ! sh -c 'git stash push -- $1 && git stash drop -q' -
 	find = ! git ls-files | grep
 	history = log --compact-summary --
 	out = log --branches --not --remotes
