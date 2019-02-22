@@ -63,7 +63,7 @@
 	# Abbreviations
 	br = branch --all
 	brd = branch -d
-	c = ! git changes
+	c = checkout
 	check = checkout
 	clg = ! git clonehub
 	cm = commit -m
