@@ -68,7 +68,6 @@ if [[ "$THEME" == "agnoster" ]]; then
     prompt_dir() {
         # change colors
         prompt_segment blue white '%~'
-        
     }
 fi
 
@@ -99,12 +98,12 @@ bindkey -M emacs '^H' backward-kill-word
 alias l="ls -lhF"
 alias la="ls -lhF --all"
 alias g="git"
-alias h="history | grep --color=always -E '[0-9]+ ' | less +G"
+alias h="history -i | grep --color=always -E '  [0-9]+  ' | grep --color=always -E '[0-9]{2}:[0-9]{2}  ' | less +G"
 alias c="clear"
 alias rr='ranger --choosedir=$HOME/.rangerdir; LASTDIR=`cat $HOME/.rangerdir`; cd "$LASTDIR"'
 
 # - Meta
-alias colors='for i in {0..255}; do echo -en "\e[48;5;${i}m Color ${i}\e[0m \n" ; done | less'
+alias colors='for i in {-1..255}; do if [[ "$i" < "0" ]]; then echo "Use like: \\\e[AA;5;XXm (AA = 38 (fore) | 48 (back), XX = 0 for reset, list below)"; else echo -en "\e[48;5;${i}m Color ${i}\e[0m \n"; fi; done | less'
 alias reload="source ~/.zshrc"
 unalias alias > /dev/null 2>&1
 alias alias="alias | sed -e 's/^alias\\.//g' -e 's/=/ = /' | grep --color=always -E '^[^=]+=' | less -S -R"
