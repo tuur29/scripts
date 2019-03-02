@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <key name="Software">
 	<key name="ConEmu">
-		<key name=".Vanilla" modified="2019-02-25 19:10:53" build="180626">
+		<key name=".Vanilla" modified="2019-03-02 12:21:46" build="180626">
 			<value name="ColorTable00" type="dword" data="00222827"/>
 			<value name="ColorTable01" type="dword" data="009e5401"/>
 			<value name="ColorTable02" type="dword" data="0004aa74"/>
@@ -502,12 +502,12 @@
 			<value name="DndLKey" type="hex" data="00"/>
 			<value name="DndRKey" type="hex" data="a2"/>
 			<value name="WndDragKey" type="dword" data="00121101"/>
-			<key name="Tasks" modified="2019-02-25 18:39:42" build="180626">
-				<value name="Count" type="long" data="16"/>
-				<key name="Task1" modified="2019-02-20 19:00:37" build="180626">
+			<key name="Tasks" modified="2019-03-02 12:17:14" build="180626">
+				<value name="Count" type="long" data="17"/>
+				<key name="Task1" modified="2019-03-02 12:21:39" build="180626">
 					<value name="Name" type="string" data="{bash}"/>
 					<value name="GuiArgs" type="string" data='-icon "%USERPROFILE%\AppData\Local\lxss\bash.ico"'/>
-					<value name="Cmd1" type="string" data='set "PATH=%ConEmuBaseDirShort%\wsl;%PATH%" &amp; %ConEmuBaseDirShort%\conemu-cyg-64.exe --wsl -cur_console:d:C:\'/>
+					<value name="Cmd1" type="string" data='cmd.exe /k "%ConEmuBaseDir%\CmdInit.cmd &amp; cd C:/ &amp; CLS &amp; bash.exe"'/>
 					<value name="Active" type="long" data="0"/>
 					<value name="Count" type="long" data="1"/>
 					<value name="Flags" type="dword" data="00000002"/>
@@ -540,16 +540,7 @@
 					<value name="Flags" type="dword" data="00000004"/>
 					<value name="Hotkey" type="dword" data="00000000"/>
 				</key>
-				<key name="Task5" modified="2019-02-25 18:39:42" build="180626">
-					<value name="Name" type="string" data="{wsl}"/>
-					<value name="GuiArgs" type="string" data='-icon "%USERPROFILE%\AppData\Local\lxss\bash.ico"'/>
-					<value name="Cmd1" type="string" data='set "PATH=%ConEmuBaseDirShort%\;%PATH%" &amp;  C:\Windows\System32\wsl.exe -cur_console:d:C:\'/>
-					<value name="Active" type="long" data="0"/>
-					<value name="Count" type="long" data="1"/>
-					<value name="Flags" type="dword" data="00000004"/>
-					<value name="Hotkey" type="dword" data="00000000"/>
-				</key>
-				<key name="Task6" modified="2019-02-25 18:39:42" build="180626">
+				<key name="Task5" modified="2019-03-02 12:19:05" build="180626">
 					<value name="Name" type="string" data="{PowerShell::PowerShell}"/>
 					<value name="GuiArgs" type="string" data=""/>
 					<value name="Cmd1" type="string" data="powershell.exe"/>
@@ -558,7 +549,7 @@
 					<value name="Flags" type="dword" data="00000004"/>
 					<value name="Hotkey" type="dword" data="00000000"/>
 				</key>
-				<key name="Task7" modified="2019-02-25 18:39:42" build="180626">
+				<key name="Task6" modified="2019-03-02 12:19:05" build="180626">
 					<value name="Name" type="string" data="{PowerShell::PowerShell (Admin)}"/>
 					<value name="GuiArgs" type="string" data=""/>
 					<value name="Cmd1" type="string" data="powershell.exe -new_console:a"/>
@@ -567,25 +558,25 @@
 					<value name="Flags" type="dword" data="00000000"/>
 					<value name="Hotkey" type="dword" data="00000000"/>
 				</key>
-				<key name="Task8" modified="2019-02-25 18:39:42" build="180626">
+				<key name="Task7" modified="2019-03-02 12:19:05" build="180626">
 					<value name="Name" type="string" data="{Shells::cmd (Admin)}"/>
+					<value name="GuiArgs" type="string" data=""/>
+					<value name="Cmd1" type="string" data='cmd.exe /k "%ConEmuBaseDir%\CmdInit.cmd" -new_console:a'/>
+					<value name="Active" type="long" data="0"/>
+					<value name="Count" type="long" data="1"/>
 					<value name="Flags" type="dword" data="00000004"/>
 					<value name="Hotkey" type="dword" data="00000000"/>
-					<value name="GuiArgs" type="string" data=""/>
-					<value name="Count" type="long" data="1"/>
-					<value name="Active" type="long" data="0"/>
-					<value name="Cmd1" type="string" data='cmd.exe /k "%ConEmuBaseDir%\CmdInit.cmd" -new_console:a'/>
 				</key>
-				<key name="Task9" modified="2019-02-25 18:39:42" build="180626">
+				<key name="Task8" modified="2019-03-02 12:19:05" build="180626">
 					<value name="Name" type="string" data="{Shells::cmd-32}"/>
 					<value name="Flags" type="dword" data="00000004"/>
 					<value name="Hotkey" type="dword" data="00000000"/>
 					<value name="GuiArgs" type="string" data=""/>
-					<value name="Active" type="long" data="0"/>
 					<value name="Count" type="long" data="1"/>
+					<value name="Active" type="long" data="0"/>
 					<value name="Cmd1" type="string" data='"%windir%\syswow64\cmd.exe" /k "%ConEmuBaseDir%\CmdInit.cmd"'/>
 				</key>
-				<key name="Task10" modified="2019-02-25 18:39:42" build="180626">
+				<key name="Task9" modified="2019-03-02 12:19:05" build="180626">
 					<value name="Name" type="string" data="{Shells::cmd 64/32}"/>
 					<value name="Flags" type="dword" data="00000004"/>
 					<value name="Hotkey" type="dword" data="00000000"/>
@@ -595,7 +586,25 @@
 					<value name="Cmd1" type="string" data='&gt; "%windir%\system32\cmd.exe" /k ""%ConEmuBaseDir%\CmdInit.cmd" &amp; echo This is Native cmd.exe"'/>
 					<value name="Cmd2" type="string" data='"%windir%\syswow64\cmd.exe" /k ""%ConEmuBaseDir%\CmdInit.cmd" &amp; echo This is 32 bit cmd.exe -new_console:s50V"'/>
 				</key>
-				<key name="Task11" modified="2019-02-25 18:39:42" build="180626">
+				<key name="Task10" modified="2019-03-02 12:19:05" build="180626">
+					<value name="Name" type="string" data="{Old::bash}"/>
+					<value name="Flags" type="dword" data="00000004"/>
+					<value name="Hotkey" type="dword" data="00000000"/>
+					<value name="GuiArgs" type="string" data='-icon "%USERPROFILE%\AppData\Local\lxss\bash.ico"'/>
+					<value name="Active" type="long" data="0"/>
+					<value name="Count" type="long" data="1"/>
+					<value name="Cmd1" type="string" data='set "PATH=%ConEmuBaseDirShort%\wsl;%PATH%" &amp; %ConEmuBaseDirShort%\conemu-cyg-64.exe --wsl -C/c -cur_console:pm:/mnt'/>
+				</key>
+				<key name="Task11" modified="2019-03-02 12:19:05" build="180626">
+					<value name="Name" type="string" data="{Old::wsl}"/>
+					<value name="Flags" type="dword" data="00000004"/>
+					<value name="Hotkey" type="dword" data="00000000"/>
+					<value name="GuiArgs" type="string" data='-icon "%USERPROFILE%\AppData\Local\lxss\bash.ico"'/>
+					<value name="Active" type="long" data="0"/>
+					<value name="Count" type="long" data="1"/>
+					<value name="Cmd1" type="string" data='set "PATH=%ConEmuBaseDirShort%\;%PATH%" &amp;  C:\Windows\System32\wsl.exe -cur_console:d:C:\'/>
+				</key>
+				<key name="Task12" modified="2019-03-02 12:19:05" build="180626">
 					<value name="Name" type="string" data="{Hidden::CygWin}"/>
 					<value name="Flags" type="dword" data="00000004"/>
 					<value name="Hotkey" type="dword" data="00000000"/>
@@ -604,7 +613,7 @@
 					<value name="Count" type="long" data="1"/>
 					<value name="Cmd1" type="string" data="%ConEmuDrive%\cygwin\bin\bash.exe -new_console:C:%ConEmuDrive%\cygwin\Cygwin.ico --login -i"/>
 				</key>
-				<key name="Task12" modified="2019-02-25 18:39:42" build="180626">
+				<key name="Task13" modified="2019-03-02 12:19:05" build="180626">
 					<value name="Name" type="string" data="{Hidden::MinGW}"/>
 					<value name="Flags" type="dword" data="00000004"/>
 					<value name="Hotkey" type="dword" data="00000000"/>
@@ -613,7 +622,7 @@
 					<value name="Count" type="long" data="1"/>
 					<value name="Cmd1" type="string" data="%ConEmuDrive%\MinGW\msys\1.0\bin\bash.exe -new_console:C:%ConEmuDrive%\MinGW\msys\1.0\msys.ico --login -i"/>
 				</key>
-				<key name="Task13" modified="2019-02-25 18:39:42" build="180626">
+				<key name="Task14" modified="2019-03-02 12:19:05" build="180626">
 					<value name="Name" type="string" data="{Hidden::VC++ 2012}"/>
 					<value name="Flags" type="dword" data="00000004"/>
 					<value name="Hotkey" type="dword" data="00000000"/>
@@ -622,7 +631,7 @@
 					<value name="Count" type="long" data="1"/>
 					<value name="Cmd1" type="string" data='cmd /k "C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\vcvars32.bat" "-new_console:C:C:\Program Files (x86)\Microsoft Visual Studio 11.0\Common7\IDE\WDExpress.exe"'/>
 				</key>
-				<key name="Task14" modified="2019-02-25 18:39:42" build="180626">
+				<key name="Task15" modified="2019-03-02 12:19:05" build="180626">
 					<value name="Name" type="string" data="{Hidden::cmd &amp; PowerShell}"/>
 					<value name="Flags" type="dword" data="00000004"/>
 					<value name="Hotkey" type="dword" data="00000000"/>
@@ -632,7 +641,7 @@
 					<value name="Cmd1" type="string" data="&gt;cmd"/>
 					<value name="Cmd2" type="string" data="PowerShell -new_console:sV"/>
 				</key>
-				<key name="Task15" modified="2019-02-25 18:39:42" build="180626">
+				<key name="Task16" modified="2019-03-02 12:19:05" build="180626">
 					<value name="Name" type="string" data="{Hidden::Chocolatey (Admin)}"/>
 					<value name="Flags" type="dword" data="00000004"/>
 					<value name="Hotkey" type="dword" data="00000000"/>
@@ -641,7 +650,7 @@
 					<value name="Count" type="long" data="1"/>
 					<value name="Cmd1" type="string" data='*cmd.exe /k Title Chocolatey &amp; "%ConEmuBaseDir%\Addons\ChocolateyAbout.cmd"'/>
 				</key>
-				<key name="Task16" modified="2019-02-25 18:39:42" build="180626">
+				<key name="Task17" modified="2019-03-02 12:19:05" build="180626">
 					<value name="Name" type="string" data="{Hidden::Show ANSI colors}"/>
 					<value name="Flags" type="dword" data="00000004"/>
 					<value name="Hotkey" type="dword" data="00000000"/>
