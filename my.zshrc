@@ -49,12 +49,13 @@ if [[ "$THEME" == "powerlevel9k" ]]; then
     POWERLEVEL9K_CONTEXT_DEFAULT_FOREGROUND="black"
     POWERLEVEL9K_DIR_DEFAULT_FOREGROUND="white"
 
-    antigen theme bhilburn/powerlevel9k powerlevel9k
+    # antigen theme bhilburn/powerlevel9k powerlevel9k
+    antigen theme romkatv/powerlevel10k powerlevel10k
     antigen apply # placing of apply depends on theme
 fi
 
 if [[ "$THEME" == "agnoster" ]]; then
-    antigen theme agnoster 
+    antigen theme agnoster
     antigen apply # placing of apply depends on theme
 
     #DEFAULT_USER=$(whoami) # hide default user
