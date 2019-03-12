@@ -102,6 +102,8 @@ alias g="git"
 alias h="history -i | grep --color=always -E '  [0-9]+  ' | grep --color=always -E '[0-9]{2}:[0-9]{2}  ' | less +G"
 alias c="clear"
 alias rr='ranger --choosedir=$HOME/.rangerdir; LASTDIR=`cat $HOME/.rangerdir`; cd "$LASTDIR"'
+alias random='echo $RANDOM % 10 + 1 | bc'
+alias hash="sh -c 'echo $1 | md5sum'"
 
 # - Meta
 alias colors='for i in {-1..255}; do if [[ "$i" < "0" ]]; then echo "Use like: \\\e[AA;5;XXm (AA = 38 (fore) | 48 (back), XX = 0 for reset, list below)"; else echo -en "\e[48;5;${i}m Color ${i}\e[0m \n"; fi; done | less'
