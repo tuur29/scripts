@@ -14,3 +14,13 @@ return
 !F3::	;the ! means alt
 	Send {Media_Prev}
 return
+
+; RN Refresh
+!F5::	;the ! means alt
+	Run, adb shell input text "RR", , Hide 
+return
+
+; RN Menu
+^!F5::	;the ! means alt
+	Run, adb shell input keyevent 82, , Hide 
+return
