@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <key name="Software">
 	<key name="ConEmu">
-		<key name=".Vanilla" modified="2019-03-05 08:58:27" build="180626">
+		<key name=".Vanilla" modified="2019-03-15 08:44:27" build="180626">
 			<value name="ColorTable00" type="dword" data="00222827"/>
 			<value name="ColorTable01" type="dword" data="009e5401"/>
 			<value name="ColorTable02" type="dword" data="0004aa74"/>
@@ -942,7 +942,9 @@
 			</key>
 			<value name="CmdLineHistory" type="multi">
 				<line data="{gitbash}"/>
+				<line data="{cmd}"/>
 				<line data="{bash}"/>
+				<line data="{PowerShell::PowerShell (Admin)}"/>
 			</value>
 		</key>
 	</key>
