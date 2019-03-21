@@ -27,10 +27,14 @@ PS1="$PS1"' $ '                          # prompt: always $
 alias ..='cd ..'
 alias ...='cd ..; cd ..'
 alias ....='cd ..; cd ..; cd ..'
-alias reload='source ~/.bashrc && clear'
+alias l='ls -lhF'
+alias la="ls -lhF --all"
 alias c='clear'
-alias l='ls -al'
 alias g='git' # more git aliasses in my.gitconfig
+alias h="history | less +G"
+alias random='echo $RANDOM'
+alias hash="sh -c 'echo $1 | md5sum'"
+alias reload='source ~/.bashrc && clear'
 
 # adb
 alias adbscreen='adb exec-out screencap -p > screen.png'

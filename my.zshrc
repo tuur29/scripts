@@ -108,6 +108,6 @@ alias hash="sh -c 'echo $1 | md5sum'"
 
 # - Meta
 alias colors='for i in {-1..255}; do if [[ "$i" < "0" ]]; then echo "Use like: \\\e[AA;5;XXm (AA = 38 (fore) | 48 (back), XX = 0 for reset, list below)"; else echo -en "\e[48;5;${i}m Color ${i}\e[0m \n"; fi; done | less'
-alias reload="source ~/.zshrc"
+alias reload="source ~/.zshrc && clear"
 unalias alias > /dev/null 2>&1
 alias alias="alias | sed -e 's/^alias\\.//g' -e 's/=/ = /' | grep --color=always -E '^[^=]+=' | less -S -R"
