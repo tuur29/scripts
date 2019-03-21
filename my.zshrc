@@ -34,6 +34,7 @@ antigen bundle zdharma/fast-syntax-highlighting
 antigen bundle zsh-users/zsh-autosuggestions
 antigen bundle colored-man-pages
 antigen bundle akoenig/npm-run.plugin.zsh
+antigen bundle klis87/yarn-run.plugin.zsh
 antigen bundle arzzen/calc.plugin.zsh
 
 
