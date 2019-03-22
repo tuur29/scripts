@@ -1,5 +1,6 @@
 #SingleInstance, force
 #MaxHotkeysPerInterval 500
+SetTitleMatchMode, 2 ; This let's any window that partially matches the given name get activated
 
 ; Remap prtscr to win+shift+s
 $PrintScreen::
@@ -27,5 +28,7 @@ return
 return
 
 ; Disable ctrl+scroll to zoom
+#IfWinActive, Chrome
 ^WheelDown::return
+#IfWinActive, Chrome
 ^WheelUp::return

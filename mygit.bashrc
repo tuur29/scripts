@@ -45,5 +45,9 @@ alias adbclear='adb shell pm clear be.marlon.ar'
 alias rnrefresh='adb shell input text "RR"'
 alias rnmenu='adb shell input keyevent 82'
 
+# android emulator
+alias emu='emulator.exe @Pixel_2_API_28'
+alias emucold='emulator.exe @Pixel_2_API_28 -no-snapshot-load'
+
 # docker
 alias drem='docker rm $(docker ps -aq)'
