@@ -1,4 +1,5 @@
 #SingleInstance, force
+#MaxHotkeysPerInterval 500
 
 ; Remap prtscr to win+shift+s
 $PrintScreen::
@@ -24,3 +25,7 @@ return
 ^!F5::	;the ! means alt
 	Run, adb shell input keyevent 82, , Hide 
 return
+
+; Disable ctrl+scroll to zoom
+^WheelDown::return
+^WheelUp::return
