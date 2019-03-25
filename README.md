@@ -14,6 +14,11 @@ Note: most of the scripts contain more info and a guide at the top of the file.
 
 [Link](./my.zshrc)
 
+## My Bash config
+> Specifically for git bash on Windows, might work on unix as well
+
+[Link](./mygit.bashrc)
+
 ## Code Snippets
 > Some useful JS, PHP, HTML, CSS and General code snippets for Visual Studio Code
 
