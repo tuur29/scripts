@@ -51,4 +51,5 @@ alias emucold='emulator.exe @Pixel_2_API_28 -no-snapshot-load'
 
 # docker
 alias drem='docker rm $(docker ps -aq)'
+alias dkill='docker kill $(docker ps -aq)'
 alias dps='docker ps -a'
