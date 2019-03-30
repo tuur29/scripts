@@ -2,26 +2,35 @@
 # Settings
 
 export HISTCONTROL=ignoredups:erasedups
-export EDITOR=nano
+export EDITOR=code
 
-# customize prompt
-PS1='\[\033]0;$TITLEPREFIX:$PWD\007\]'  # set window title
-PS1="$PS1"'\n'                          # new line
-PS1="$PS1"'\[\033[32m\]'                # change to green
-# PS1="$PS1"'\u@\h '                      # user@host<space>
-PS1="$PS1"'\u '                         # user<space>
-PS1="$PS1"'\[\033[35m\]'                # change to purple
-# PS1="$PS1"'$MSYSTEM '                   # show MSYSTEM
-PS1="$PS1"'\[\033[33m\]'                # change to brownish yellow
-PS1="$PS1"'\w'                          # current working directory
-PS1="$PS1"'\[\033[36m\]'                # change color to cyan
-PS1="$PS1"'`__git_ps1`'                 # bash function
-PS1="$PS1"'\[\033[0m\]'                 # change color
-# PS1="$PS1"'\n'                          # new line
-PS1="$PS1"' $ '                          # prompt: always $
+# download theme
+
+mkdir -p ~/.bash/themes/git_bash_windows_powerline 2>/dev/null
+git clone https://github.com/diesire/git_bash_windows_powerline.git ~/.bash/themes/git_bash_windows_powerline 2>/dev/null
+source ~/.bash/themes/git_bash_windows_powerline/theme.bash
+
+# modify theme
+
+USER_INFO_PROMPT_COLOR="C Bl"
+CWD_PROMPT_COLOR="B W"
+SCM_PROMPT_DIRTY_COLOR="Y Bl"
+
+# https://github.com/diesire/git_bash_windows_powerline/blob/master/theme.bash#L78
+function __powerline_user_info_prompt {
+  local user_info=""
+  local color=${USER_INFO_PROMPT_COLOR}
+  if [[ -n "${SSH_CLIENT}" ]]; then
+    user_info="${USER_INFO_SSH_CHAR}\u@\h"
+  else
+    user_info=" \u " # Removed '@h' here and added whitespace
+  fi
+  [[ -n "${user_info}" ]] && echo "${user_info}|${color}"
+}
 
 
 # Aliasses
+
 
 alias ..='cd ..'
 alias ...='cd ..; cd ..'
@@ -30,6 +39,8 @@ alias l='ls -lhF'
 alias la="ls -lhF --all"
 alias c='clear'
 alias g='git' # more git aliasses in my.gitconfig
+__git_complete g _git
+
 alias h="history | less +G"
 alias random='echo $RANDOM'
 alias hash="sh -c 'echo $1 | md5sum'"
@@ -53,3 +64,6 @@ alias emucold='emulator.exe @Pixel_2_API_28 -no-snapshot-load'
 alias drem='docker rm $(docker ps -aq)'
 alias dkill='docker kill $(docker ps -aq)'
 alias dps='docker ps -a'
+
+# add colors
+alias grep='grep --color=auto'
