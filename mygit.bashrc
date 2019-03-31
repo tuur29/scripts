@@ -15,6 +15,11 @@ source ~/.bash/themes/git_bash_windows_powerline/theme.bash
 USER_INFO_PROMPT_COLOR="C Bl"
 CWD_PROMPT_COLOR="B W"
 SCM_PROMPT_DIRTY_COLOR="Y Bl"
+POWERLINE_LEFT_SEPARATOR="█ "
+POWERLINE_PROMPT_CHAR="█"
+SCM_PROMPT_DIRTY=" *"
+SCM_PROMPT_AHEAD=" ↑"
+SCM_PROMPT_BEHIND=" ↓"
 
 # https://github.com/diesire/git_bash_windows_powerline/blob/master/theme.bash#L78
 function __powerline_user_info_prompt {
@@ -23,7 +28,7 @@ function __powerline_user_info_prompt {
   if [[ -n "${SSH_CLIENT}" ]]; then
     user_info="${USER_INFO_SSH_CHAR}\u@\h"
   else
-    user_info=" \u " # Removed '@h' here and added whitespace
+    user_info=" \u" # Removed '@h' here
   fi
   [[ -n "${user_info}" ]] && echo "${user_info}|${color}"
 }
