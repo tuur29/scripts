@@ -69,6 +69,8 @@ alias emucold='emulator.exe @Pixel_2_API_28 -no-snapshot-load'
 alias drem='docker rm $(docker ps -aq)'
 alias dkill='docker kill $(docker ps -aq)'
 alias dps='docker ps -a'
+alias dup='docker-compose up'
+alias ddown='docker-compose down'
 
 # add colors
 alias grep='grep --color=auto'
