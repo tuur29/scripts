@@ -24,12 +24,13 @@
 [alias]
 
 	# Shortcuts
-	abort = merge --abort
+	abort = ! git merge --abort && git rebase --abort && git cherry-pick --abort
 	branches = branch -av
 	branchname = rev-parse --abbrev-ref HEAD
 	changedfiles = ! git add . && git diff --cached --stat
 	changes = ! git add . && git diff --cached -U4 --compact-summary
 	commitall = ! git add . && git commit -a -m
+	continue = ! git merge --continue && git rebase --continue && git cherry-pick --continue
 	details = log -n1 -p --format=fuller
 	# discard = ! git add . && git reset --hard
 	discard = ! sh -c 'git stash push -- $1 && git stash drop -q' -
