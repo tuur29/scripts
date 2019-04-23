@@ -36,7 +36,6 @@ function __powerline_user_info_prompt {
 
 # Aliasses
 
-
 alias ..='cd ..'
 alias ...='cd ..; cd ..'
 alias ....='cd ..; cd ..; cd ..'
@@ -48,14 +47,18 @@ __git_complete g _git
 
 alias h="history | less +G"
 alias random='echo $RANDOM'
-alias hash="sh -c 'echo $1 | md5sum'"
 alias reload='source ~/.bashrc && clear'
+hash() {
+  echo $1 | md5sum
+}
 
 # adb
 alias adbscreen='adb exec-out screencap -p > screen.png'
 alias adbtunnel='adb reverse tcp:8081 tcp:8081 && adb reverse tcp:4000 tcp:4000 && adb reverse tcp:5000 tcp:5000'
-alias adbwireless="sh -c 'adb tcpip 5555 && adb connect $1'"
 alias adbclear='adb shell pm clear be.marlon.ar'
+adbwireless() {
+  adb tcpip 5555 && adb connect $1:5555
+}
 
 # react native
 alias rnrefresh='adb shell input text "RR"'
