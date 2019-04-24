@@ -24,13 +24,13 @@
 [alias]
 
 	# Shortcuts
-	abort = ! git merge --abort && git rebase --abort && git cherry-pick --abort
+	abort = ! git merge --abort | git rebase --abort | git cherry-pick --abort
 	branches = branch -av
 	branchname = rev-parse --abbrev-ref HEAD
 	changedfiles = ! git add . && git diff --cached --stat
 	changes = ! git add . && git diff --cached -U4 --compact-summary
 	commitall = ! git add . && git commit -a -m
-	continue = ! git merge --continue && git rebase --continue && git cherry-pick --continue
+	continue = ! git merge --continue | git rebase --continue | git cherry-pick --continue
 	details = log -n1 -p --format=fuller
 	# discard = ! git add . && git reset --hard
 	discard = ! sh -c 'git stash push -- $1 && git stash drop -q' -
@@ -62,6 +62,7 @@
 	syncfork = ! git fetch upstream && git merge upstream/$(git branchname)
 	diverges = ! sh -c 'git rev-list --boundary $1...$2 | grep "^-" | cut -c2-'
 	rewrite = ! bash -c 'hashes=$(git diverges $(git branchname) ${1:-master}) && hashes+=("") && git rebase -i ${hashes[-1]}'
+	quickpull = ! sh -c 'sh -c \"git stash push -- && git checkout $2 && git pull && git checkout $1 && git stash pop\"' - $(git branchname)
 
 	# Abbreviations
 	br = branch --all
@@ -77,3 +78,4 @@
 	ps = push
 	st = status --short
 	t = tag
+	qpl = quickpull
