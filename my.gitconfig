@@ -38,6 +38,7 @@
 	find = ! git ls-files | grep
 	history = log --compact-summary --
 	out = log --branches --not --remotes
+	pick = cherry-pick
 	please = push --force-with-lease
 	pushnew = push -u origin HEAD
 	root = rev-parse --show-toplevel
