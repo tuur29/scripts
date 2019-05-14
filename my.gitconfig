@@ -64,7 +64,7 @@
 	rembrgrep = ! sh -c 'git branch | grep $1 | xargs git branch -D' -
 	syncfork = ! git fetch upstream && git merge upstream/$(git branchname)
 	diverges = ! sh -c 'git rev-list --boundary $1...$2 | grep "^-" | cut -c2-'
-	rewrite = ! bash -c 'hashes=$(git diverges $(git branchname) ${1:-master}) && hashes+=("") && git rebase -i ${hashes[-1]}'
+	rewrite = ! sh -c 'git rebase -i HEAD~$1' -
 	quickpull = ! sh -c 'sh -c \"echo qpltmp > qpltmp && git add . && git stash push -- && git checkout $2 && git pull && git checkout $1 && git stash pop && rm -f qpltmp && git add qpltmp\"' - $(git branchname)
 
 	# Abbreviations
