@@ -25,6 +25,7 @@
 
 	# Shortcuts
 	abort = ! git merge --abort | git rebase --abort | git cherry-pick --abort
+	amend = commit -F - --amend
 	branches = branch -av
 	branchname = rev-parse --abbrev-ref HEAD
 	changedfiles = ! git add . && git diff --cached --stat
@@ -52,7 +53,6 @@
 
 	# Functions
 	alias = ! git config --get-regexp ^alias\\. | sed -e s/^alias\\.// -e s/\\ /\\ =\\ / | grep --color=always -E '^[^=]+=' | less -S -R
-	amend = ! git log -n 1 --pretty=tformat:%s%n%n%b | git commit -F - --amend
 	backup = ! sh -c 'git bundle create ../$(basename $PWD)_$(date "+%s").git-bundle --all' -
 	changelog = log --graph --all --date=local --name-status --format=format:'%C(cyan)%h%C(reset) - %C(red)%d%C(reset) - %C(white)(%ai)%C(reset) %C(white dim)%s%C(reset) %C(white) -- %an%C(reset)' --abbrev-commit --color
 	clonegh = ! sh -c 'git clone https://github.com/$1.git $(basename $1) && cd $(basename $1)' -
@@ -63,6 +63,7 @@
 	issues = ! start $(echo https://github.$(git config remote.origin.url | cut -f2 -d.)/issues)
 	rembrgrep = ! sh -c 'git branch | grep $1 | xargs git branch -D' -
 	syncfork = ! git fetch upstream && git merge upstream/$(git branchname)
+	todo = ! git diff | grep -i -E '^\\+.*(TODO.*)|\\+\\+\\+' --color
 	diverges = ! sh -c 'git rev-list --boundary $1...$2 | grep "^-" | cut -c2-'
 	rewrite = ! sh -c 'git rebase -i HEAD~$1' -
 	quickpull = ! sh -c 'sh -c \"echo qpltmp > qpltmp && git add . && git stash push -- && git checkout $2 && git pull && git checkout $1 && git stash pop && rm -f qpltmp && git add qpltmp\"' - $(git branchname)
