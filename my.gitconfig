@@ -29,7 +29,8 @@
 	branches = branch -av
 	branchname = rev-parse --abbrev-ref HEAD
 	changedfiles = ! git add . && git diff --cached --stat
-	changes = ! git add . && git diff --cached -U4 --compact-summary
+	# changes = ! git add . && git diff --cached -U4 --compact-summary
+	changes = ! sh -c '[ "$0" == "sh" ] && git diff || git show $0'
 	commitall = ! git add . && git commit -a -m
 	continue = ! git merge --continue | git rebase --continue | git cherry-pick --continue
 	details = log -n1 -p --format=fuller
@@ -63,7 +64,7 @@
 	issues = ! start $(echo https://github.$(git config remote.origin.url | cut -f2 -d.)/issues)
 	rembrgrep = ! sh -c 'git branch | grep $1 | xargs git branch -D' -
 	syncfork = ! git fetch upstream && git merge upstream/$(git branchname)
-	todo = ! git diff | grep -i -E '^\\+.*(TODO.*)|\\+\\+\\+' | sed 's/^.*\\(TODO.*\\).*$/     - \\1/' | grep --color -i -E '^|TODO:'
+	todo = ! sh -c '([ "$0" == "sh" ] && git diff || git show $0) | grep -i -E \"^\\+.*(TODO.*)|\\+\\+\\+\" | sed \"s/^.*\\(TODO.*\\).*$/     - \\1/\" | grep --color -i -E \"^|TODO:\"'
 	diverges = ! sh -c 'git rev-list --boundary $1...$2 | grep "^-" | cut -c2-'
 	rewrite = ! sh -c 'git rebase -i HEAD~$1' -
 	quickpull = ! sh -c 'sh -c \"echo qpltmp > qpltmp && git add . && git stash push -- && git checkout $2 && git pull && git checkout $1 && git stash pop && rm -f qpltmp && git add qpltmp\"' - $(git branchname)
