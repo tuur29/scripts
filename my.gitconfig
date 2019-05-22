@@ -82,6 +82,7 @@
 	cma = commitall
 	d = discard
 	f = fetch --all --prune
+	g = ! git
 	p = ! git fetch --all --prune && git pull
 	pl = pull
 	ps = push
