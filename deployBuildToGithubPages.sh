@@ -3,10 +3,11 @@
 # This script will run a build command of your choice and
 # push the subfolder with the subsequent build to the gh-pages branch.
 # If you are building an Angular 2+ webapp it will also improve some other things.
+# Tip: If your build command references `npm run build`, add -- before any arguments
 
 # CONFIG
 
-buildcommand="ng build --prod --base-href './'"
+buildcommand="npm run build -- --prod --base-href './'"
 subdir="dist"
 angularimprovements=1 # 0 or 1
 
