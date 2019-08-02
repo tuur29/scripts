@@ -43,9 +43,10 @@ alias l='ls -lhF'
 alias la="ls -lhF --all"
 alias c='clear'
 alias g='git' # more git aliasses in my.gitconfig
-__git_complete g _git
+__git_complete g _git >/dev/null 2>&1
 
 alias h="history | less +G"
+alias y="yarn"
 alias random='echo $RANDOM'
 alias reload='source ~/.bashrc && clear'
 hash() {
