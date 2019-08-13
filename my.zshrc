@@ -49,6 +49,10 @@ if [[ "$THEME" == "powerlevel9k" ]]; then
     POWERLEVEL9K_CONTEXT_DEFAULT_BACKGROUND="cyan"
     POWERLEVEL9K_CONTEXT_DEFAULT_FOREGROUND="black"
     POWERLEVEL9K_DIR_DEFAULT_FOREGROUND="white"
+    # shorten path
+    POWERLEVEL9K_SHORTEN_DIR_LENGTH=1
+    POWERLEVEL9K_SHORTEN_DELIMITER=""
+    POWERLEVEL9K_SHORTEN_STRATEGY="truncate_from_right"
 
     # antigen theme bhilburn/powerlevel9k powerlevel9k
     antigen theme romkatv/powerlevel10k powerlevel10k
