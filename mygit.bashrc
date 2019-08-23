@@ -3,6 +3,7 @@
 
 export HISTCONTROL=ignoredups:erasedups
 export EDITOR=code
+PROMPT_COMMAND='history -a'
 
 # download theme
 
