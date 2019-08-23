@@ -61,6 +61,9 @@ alias adbclear='adb shell pm clear be.marlon.ar'
 adbwireless() {
   adb tcpip 5555 && adb connect $1:5555
 }
+adblog() {
+  adb -d logcat $1:ERROR *:S
+}
 
 # react native
 alias rnrefresh='adb shell input text "RR"'
