@@ -1,0 +1,43 @@
+section: screens
+	LOCIRNO:
+		halfDuplexCapsLock = false
+		halfDuplexNumLock = false
+		halfDuplexScrollLock = false
+		xtestIsXineramaUnaware = false
+		switchCorners = none 
+		switchCornerSize = 0
+	MacMini:
+		ctrl = super
+		super = ctrl
+		halfDuplexCapsLock = false
+		halfDuplexNumLock = false
+		halfDuplexScrollLock = false
+		xtestIsXineramaUnaware = false
+		switchCorners = none 
+		switchCornerSize = 0
+end
+
+section: aliases
+end
+
+section: links
+	LOCIRNO:
+		right = MacMini
+	MacMini:
+		left = LOCIRNO
+end
+
+section: options
+	relativeMouseMoves = true
+	screenSaverSync = true
+	win32KeepForeground = false
+	disableLockToScreen = false
+	clipboardSharing = true
+	clipboardSharingSize = 3072
+	switchCorners = none 
+	switchCornerSize = 0
+	keystroke(control+shift+l) = keystroke(control+l, MacMini)
+	keystroke(super+f5) = keystroke(control+r, MacMini)
+	keystroke(Print) = keystroke(control+shift+3, MacMini)
+end
+
