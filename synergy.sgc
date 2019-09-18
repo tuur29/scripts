@@ -1,3 +1,17 @@
+
+#
+# This config was made for usage between MacOS and Windows (React Native iOS development)
+# Screen Layout. Right monitor switches between MacOS and Windows:
+#
+#                      +------------------+   +------------------+
+#                      |                  |   |                  |
+#   +--------------+   |  Windows (main)  |   |  MacOS 			 |
+#   |              |   |                  |   |  and Windows	 |
+#   |  Windows     |   |                  |   |                  |
+#   |              |   +------------------+   +------------------+
+#   +--------------+
+#
+
 section: screens
 	LOCIRNO:
 		halfDuplexCapsLock = false
@@ -22,8 +36,12 @@ end
 
 section: links
 	LOCIRNO:
+		up = MacMini
+		down = MacMini
 		right = MacMini
 	MacMini:
+		up = LOCIRNO
+		down = LOCIRNO
 		left = LOCIRNO
 end
 
@@ -33,11 +51,10 @@ section: options
 	win32KeepForeground = false
 	disableLockToScreen = false
 	clipboardSharing = true
-	clipboardSharingSize = 3072
+	clipboardSharingSize = 5000
 	switchCorners = none 
 	switchCornerSize = 0
 	keystroke(control+shift+l) = keystroke(control+l, MacMini)
 	keystroke(super+f5) = keystroke(control+r, MacMini)
 	keystroke(Print) = keystroke(control+shift+3, MacMini)
 end
-
