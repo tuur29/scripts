@@ -53,6 +53,9 @@ alias reload='source ~/.bashrc && clear'
 hash() {
   echo $1 | md5sum
 }
+loadenv() { # Example usage: $ loadenv .vscode/env/prev.env && y start
+  export $(cat $1 | xargs)
+}
 
 # adb
 alias adbscreen='adb exec-out screencap -p > screen.png'
