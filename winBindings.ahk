@@ -17,14 +17,13 @@ return
 	Send {Media_Prev}
 return
 
-; RN Refresh
-!F5::	;the ! means alt
-	Run, adb shell input text "RR", , Hide 
-return
+; Slack thumbs up
+!t::
+	Send :thumbsup:{Enter}
 
-; RN Menu
-^!F5::	;the ! means alt
-	Run, adb shell input keyevent 82, , Hide 
+; Slack thumbs up as reaction
+^!t::
+	Send +:thumbsup:{Enter}
 return
 
 ; Disable ctrl+scroll to zoom
