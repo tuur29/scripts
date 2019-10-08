@@ -23,7 +23,7 @@ return
 
 ; Slack thumbs up as reaction
 ^!t::
-	Send +:thumbsup:{Enter}
+	Send {+}:thumbsup:{Enter}
 return
 
 ; Disable ctrl+scroll to zoom
