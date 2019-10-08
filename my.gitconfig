@@ -36,6 +36,7 @@
 	# discard = ! git add . && git reset --hard
 	discard = ! sh -c 'git stash push -- $1 && git stash drop -q' -
 	# discard = "! bash -c 'git clean -nd $1; read -p \"Are you sure? (Y/n) \" -n 1 -r -s; if [[ $REPLY =~ ^[Yy]$ ]]; then git clean -fd $1; fi' -"
+	empty = commit --allow-empty -m "Trigger with empty commit"
 	find = ! git ls-files | grep
 	first = rev-list --max-parents=0 HEAD
 	history = log --compact-summary --
