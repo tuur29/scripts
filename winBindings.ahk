@@ -20,6 +20,7 @@ return
 ; Slack thumbs up
 !t::
 	Send :thumbsup:{Enter}
+return
 
 ; Slack thumbs up as reaction
 ^!t::
