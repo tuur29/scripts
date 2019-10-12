@@ -1,10 +1,14 @@
+#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
 #SingleInstance, force
 #MaxHotkeysPerInterval 500
 SetTitleMatchMode, 2 ; This let's any window that partially matches the given name get activated
+SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
+SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
+CoordMode, Mouse, Screen
 
 ; Remap prtscr to win+shift+s
 $PrintScreen::
-	SendEvent, #+s
+	SendEvent, #+s	; the + means shift, # means windows key
 return
 
 ; Add media skip
@@ -27,8 +31,26 @@ return
 	Send {+}:thumbsup:{Enter}
 return
 
+; Toggle Night mode
+!End::
+	Send {LWin down}a{LWin up}
+	Sleep 150
+	Send {LShift down}{Tab}{LShift up}
+	Sleep 150
+	Send {Right}
+	Sleep 150
+	Send {Right}
+	Sleep 150
+	Send {Right}
+	Sleep 150
+	Send {Enter}
+	Sleep 150
+	Send {LWin down}a{LWin up}
+return
+
 ; Disable ctrl+scroll to zoom
 #IfWinActive, Chrome
-^WheelDown::return
-#IfWinActive, Chrome
-^WheelUp::return
+{
+	^WheelDown::return
+	^WheelUp::return
+}
