@@ -69,8 +69,7 @@
 	issues = ! start $(echo https://github.$(git config remote.origin.url | cut -f2 -d.)/issues)
 	bulkbranchrem = ! sh -c 'git branch | grep $1 | xargs git branch -D' -
 	syncfork = ! git fetch upstream && git merge upstream/$(git branchname)
-	# todo = ! sh -c '([ "$0" == "sh" ] && git diff || git show $0) | grep -i -E \"^\\+.*(TODO.*)|\\+\\+\\+\" | sed \"s/^.*\\(TODO.*\\).*$/     - \\1/\" | grep --color -i -E \"^|TODO:\" | awk "NR > 1 && !(/\\+\\+\\+/ && p ~ /\\+\\+\\+/) { print p } { p = \\$0 } END { print }" | sed "\\$d"'
-	todo = ! sh -c '([ "$0" == "sh" ] && git diff || git show $0) | grep -i -E \"^\\+.*(TODO.*)|\\+\\+\\+\" | sed \"s/^.*\\(TODO.*\\).*$/     - \\1/\" | grep --color -i -E \"^|TODO:\"'
+	todo = "!git diff develop | grep -i -E '^\\+.*(TODO.*)|\\+\\+\\+' | sed 's/^.*\\(TODO.*\\).*$/     - \\1/' | sed -e '/\\+\\+\\+.*/{ h; d; }; H; x; s/\\+\\+\\+\\n//g;' | sed '$!N; /^\\(.*\\)\\n\\1$/!P; D' | grep --color -i -E '^|TODO:' #"
 	diverges = ! sh -c 'git rev-list --boundary $1...$2 | grep "^-" | cut -c2-'
 	rewrite = ! sh -c 'git rebase -i HEAD~$1' -
 	quickpull = ! sh -c 'sh -c \"echo qpltmp > qpltmp && git add . && git stash push -- && git checkout $2 && git pull && git checkout $1 && git stash pop && rm -f qpltmp && git add qpltmp\"' - $(git branchname)
@@ -94,3 +93,7 @@
 	st = status --short
 	t = tag
 	qpl = ! git quickpull
+
+	# Helpers
+	quote-string = "!read -r l; printf \\\"!; printf %s \"$l\" | sed 's/\\([\\\"]\\)/\\\\\\1/g'; printf \" #\\\"\\n\" #"
+	quote-string-undo = "!read -r l; printf %s \"$l\" | sed 's/\\\\\\([\\\"]\\)/\\1/g'; printf \"\\n\" #"
