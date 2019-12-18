@@ -36,12 +36,12 @@ end
 
 section: links
 	LOCIRNO:
-		up = MacMini
-		down = MacMini
+#		up = MacMini
+#		down = MacMini
 		right = MacMini
 	MacMini:
-		up = LOCIRNO
-		down = LOCIRNO
+#		up = LOCIRNO
+#		down = LOCIRNO
 		left = LOCIRNO
 end
 
@@ -56,5 +56,5 @@ section: options
 	switchCornerSize = 0
 	keystroke(control+shift+l) = keystroke(control+l, MacMini)
 	keystroke(super+f5) = keystroke(control+r, MacMini)
-	keystroke(Print) = keystroke(control+shift+3, MacMini)
+	keystroke(control+Print) = keystroke(control+shift+5, MacMini)
 end

@@ -50,6 +50,7 @@ alias h="history | less +G"
 alias y="yarn"
 alias random='echo $RANDOM'
 alias reload='source ~/.bashrc && clear'
+alias tree='cmd //c tree //f //a'
 hash() {
   echo $1 | md5sum
 }
