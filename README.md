@@ -157,3 +157,7 @@ or read [more info](https://support.google.com/chrome/answer/95426?co=GENIE.Plat
 
 [Link](./pauseGPMDP.js)
 
+## deleteArchivedTrelloCards.js
+> Remove all archived cards older than 14 days form a Trello board
+
+[Link](./deleteArchivedTrelloCards.js)
