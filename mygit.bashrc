@@ -40,7 +40,8 @@ if [[ "$THEME" = "" || "$THEME" = "powerline" ]]; then
 
   # Used for running tests etc
 elif [[ "$THEME" = "clean" ]]; then
-  PROMPT_COMMAND='__git_ps1 "\w" "\n\\\$ "'
+  PS1='\$ '
+  # PROMPT_COMMAND='__git_ps1 "\w" "\n\\\$ "'
 fi
 
 # Aliasses
