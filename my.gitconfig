@@ -33,6 +33,7 @@
 	changedfiles = ! git add . && git diff --cached --stat
 	# changes = ! git add . && git diff --cached -U4 --compact-summary
 	changes = ! sh -c '[ "$0" == "sh" ] && git diff || git show $0'
+	cherry = cherry-pick
 	commitall = ! git add . && git commit -a -m
 	continue = ! git merge --continue | git rebase --continue | git cherry-pick --continue
 	details = log -n1 -p --format=fuller
@@ -75,7 +76,7 @@
 	quickpull = ! sh -c 'sh -c \"echo qpltmp > qpltmp && git add . && git stash push -- && git checkout $2 && git pull && git checkout $1 && git stash pop && rm -f qpltmp && git add qpltmp\"' - $(git branchname)
 
 	# Abbreviations
-	br = branch --all
+	br = branch
 	brd = branch -d
 	c = checkout
 	cb = checkout -B

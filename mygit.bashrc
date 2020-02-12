@@ -5,35 +5,43 @@ export HISTCONTROL=ignoredups:erasedups
 export EDITOR=code
 PROMPT_COMMAND='history -a'
 
+# default is custom theme
+if [[ "$THEME" = "" || "$THEME" = "powerline" ]]; then
+
 # download theme
 
-mkdir -p ~/.bash/themes/git_bash_windows_powerline 2>/dev/null
-git clone https://github.com/diesire/git_bash_windows_powerline.git ~/.bash/themes/git_bash_windows_powerline 2>/dev/null
-source ~/.bash/themes/git_bash_windows_powerline/theme.bash
+  mkdir -p ~/.bash/themes/git_bash_windows_powerline 2>/dev/null
+  git clone https://github.com/diesire/git_bash_windows_powerline.git ~/.bash/themes/git_bash_windows_powerline 2>/dev/null
+  source ~/.bash/themes/git_bash_windows_powerline/theme.bash
 
-# modify theme
+  # modify theme
 
-USER_INFO_PROMPT_COLOR="C Bl"
-CWD_PROMPT_COLOR="B W"
-SCM_PROMPT_DIRTY_COLOR="Y Bl"
-POWERLINE_LEFT_SEPARATOR="█ "
-POWERLINE_PROMPT_CHAR="█"
-SCM_PROMPT_DIRTY=" *"
-SCM_PROMPT_AHEAD=" ↑"
-SCM_PROMPT_BEHIND=" ↓"
+  USER_INFO_PROMPT_COLOR="C Bl"
+  CWD_PROMPT_COLOR="B W"
+  SCM_PROMPT_DIRTY_COLOR="Y Bl"
+  POWERLINE_LEFT_SEPARATOR="█ "
+  POWERLINE_PROMPT_CHAR="█"
+  SCM_PROMPT_DIRTY=" *"
+  SCM_PROMPT_AHEAD=" ↑"
+  SCM_PROMPT_BEHIND=" ↓"
 
-# https://github.com/diesire/git_bash_windows_powerline/blob/master/theme.bash#L78
-function __powerline_user_info_prompt {
-  local user_info=""
-  local color=${USER_INFO_PROMPT_COLOR}
-  if [[ -n "${SSH_CLIENT}" ]]; then
-    user_info="${USER_INFO_SSH_CHAR}\u@\h"
-  else
-    user_info=" \u" # Removed '@h' here
-  fi
-  [[ -n "${user_info}" ]] && echo "${user_info}|${color}"
-}
 
+  # https://github.com/diesire/git_bash_windows_powerline/blob/master/theme.bash#L78
+  function __powerline_user_info_prompt {
+    local user_info=""
+    local color=${USER_INFO_PROMPT_COLOR}
+    if [[ -n "${SSH_CLIENT}" ]]; then
+      user_info="${USER_INFO_SSH_CHAR}\u@\h"
+    else
+      user_info=" \u" # Removed '@h' here
+    fi
+    [[ -n "${user_info}" ]] && echo "${user_info}|${color}"
+  }
+
+  # Used for running tests etc
+elif [[ "$THEME" = "clean" ]]; then
+  PROMPT_COMMAND='__git_ps1 "\w" "\n\\\$ "'
+fi
 
 # Aliasses
 
@@ -42,7 +50,7 @@ alias ...='cd ..; cd ..'
 alias ....='cd ..; cd ..; cd ..'
 alias l='ls -lhF'
 alias la="ls -lhF --all"
-alias c='clear'
+alias c='cd'
 alias g='git' # more git aliasses in my.gitconfig
 __git_complete g _git >/dev/null 2>&1
 
