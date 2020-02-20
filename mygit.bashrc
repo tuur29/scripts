@@ -63,8 +63,8 @@ alias tree='cmd //c tree //f //a'
 hash() {
   echo $1 | md5sum
 }
-loadenv() { # Example usage: $ loadenv .vscode/env/prev.env && y start
-  export $(cat $1 | xargs)
+loadenv() { # Example usage: $ loadenv .vscode/env/prev.env && yarn start
+  export $(cat $1 | sed -n '/^#/!p' | xargs)
 }
 
 # adb
