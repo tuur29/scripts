@@ -57,6 +57,7 @@ __git_complete g _git >/dev/null 2>&1
 
 alias h="history | less +G"
 alias y="yarn"
+alias r="npm run"
 alias random='echo $RANDOM'
 alias reload='source ~/.bashrc && clear'
 alias tree='cmd //c tree //f //a'
