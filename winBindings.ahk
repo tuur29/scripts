@@ -6,29 +6,34 @@ SendMode Input  ; Recommended for new scripts due to its superior speed and reli
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 CoordMode, Mouse, Screen
 
-; Remap prtscr to win+shift+s
-$PrintScreen::
-	SendEvent, #+s	; the + means shift, # means windows key
-return
+; ; Remap prtscr to win+shift+s
+; $PrintScreen::
+; 	SendEvent, #+s	; the + means shift, # means windows key
+; return
 
-; Add media skip
-^F3::	;the ^ means ctrl
-	Send {Media_Next}
-return
+; ; Add media skip
+; ^F3::	;the ^ means ctrl
+; 	Send {Media_Next}
+; return
 
-; Add media prev
-!F3::	;the ! means alt
-	Send {Media_Prev}
-return
+; ; Add media prev
+; !F3::	;the ! means alt
+; 	Send {Media_Prev}
+; return
 
-; Slack thumbs up
-!t::
-	Send :thumbsup:{Enter}
-return
+; ; Slack thumbs up
+; !t::
+; 	Send :thumbsup:{Enter}
+; return
 
 ; Slack thumbs up as reaction
 ^!t::
 	Send {+}:thumbsup:{Enter}
+return
+
+; Slack checkmark as reaction
+^!y::
+	Send {+}:heavy_check_mark:{Enter}
 return
 
 ; Toggle Night mode
