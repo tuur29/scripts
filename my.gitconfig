@@ -54,6 +54,7 @@
 	stage = add
 	tags = tag -l
 	undo = reset --soft HEAD~1
+	unlock = ! rm -f .git/index.lock 
 	unignore = update-index --no-assume-unchanged
 	unstage = reset HEAD --
 
