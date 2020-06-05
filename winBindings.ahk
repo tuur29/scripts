@@ -21,25 +21,29 @@ return
 	Send {Media_Prev}
 return
 
-; ; Slack thumbs up
-!t::
-	Send :thumbsup:{Enter}
-return
+; ; Slack
+#IfWinActive, Slack
+{
+	; thumbs up
+	!t::
+		Send :thumbsup:{Enter}
+	return
 
-; Slack thumbs up as reaction
-^!t::
-	Send {+}:thumbsup:{Enter}
-return
+	; thumbs up as reaction
+	^!t::
+		Send {+}:thumbsup:{Enter}
+	return
 
-; Slack checkmark as reaction
-^!y::
-	Send {+}:heavy_check_mark:{Enter}
-return
+	; checkmark as reaction
+	^!y::
+		Send {+}:heavy_check_mark:{Enter}
+	return
 
-; Slack /giphy
-^!g::
-	Send /giphy{Space}
-return
+	; /giphy
+	^!g::
+		Send /giphy{Space}
+	return
+}
 
 ; Toggle Night mode
 !End::
