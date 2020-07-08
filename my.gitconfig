@@ -71,7 +71,7 @@
 	issues = ! start $(echo https://github.$(git config remote.origin.url | cut -f2 -d.)/issues)
 	bulkbranchrem = ! sh -c 'git branch | grep $1 | xargs git branch -D' -
 	syncfork = ! git fetch upstream && git merge upstream/$(git branchname)
-	todo = "!git diff develop | grep -i -E '^\\+.*(TODO.*)|\\+\\+\\+' | sed 's/^.*\\(TODO.*\\).*$/     - \\1/' | sed -e '/\\+\\+\\+.*/{ h; d; }; H; x; s/\\+\\+\\+/\\n/g;' | sed '$!N; /^\\(.*\\)\\n\\1$/!P; D' | grep --color -i -E '^|TODO:' #"
+	todo = "!git diff ${1:-develop} | grep -i -E '^\\+.*(TODO.*)|\\+\\+\\+' | sed 's/^.*\\(TODO.*\\).*$/     - \\1/' | sed -e '/\\+\\+\\+.*/{ h; d; }; H; x; s/\\+\\+\\+/\\n/g;' | sed '$!N; /^\\(.*\\)\\n\\1$/!P; D' | grep --color -i -E '^|TODO:' #"
 	diverges = ! sh -c 'git rev-list --boundary $1...$2 | grep "^-" | cut -c2-'
 	rewrite = ! sh -c 'git rebase -i HEAD~$1' -
 	quickpull = ! sh -c 'sh -c \"echo qpltmp > qpltmp && git add . && git stash push -- && git checkout $2 && git pull && git checkout $1 && git stash pop && rm -f qpltmp && git add qpltmp\"' - $(git branchname)
