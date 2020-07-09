@@ -24,6 +24,12 @@
 	required = true
 	clean = git-lfs clean -- %f
 
+[rerere]
+	enabled = true
+
+[merge]
+	conflictstyle = diff3
+
 [alias]
 
 	# Shortcuts
@@ -74,7 +80,9 @@
 	todo = "!git diff ${1:-develop} | grep -i -E '^\\+.*(TODO.*)|\\+\\+\\+' | sed 's/^.*\\(TODO.*\\).*$/     - \\1/' | sed -e '/\\+\\+\\+.*/{ h; d; }; H; x; s/\\+\\+\\+/\\n/g;' | sed '$!N; /^\\(.*\\)\\n\\1$/!P; D' | grep --color -i -E '^|TODO:' #"
 	diverges = ! sh -c 'git rev-list --boundary $1...$2 | grep "^-" | cut -c2-'
 	rewrite = ! sh -c 'git rebase -i HEAD~$1' -
+	onto = ! sh -c 'echo Current HEAD hash: $(git rev-parse HEAD) && git rebase --onto $1' -
 	quickpull = ! sh -c 'sh -c \"echo qpltmp > qpltmp && git add . && git stash push -- && git checkout $2 && git pull && git checkout $1 && git stash pop && rm -f qpltmp && git add qpltmp\"' - $(git branchname)
+	repull = ! sh -c 'git reset origin/$(git rev-parse --abbrev-ref HEAD) --hard'
 
 	# Abbreviations
 	br = branch
