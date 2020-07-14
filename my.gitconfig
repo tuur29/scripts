@@ -24,11 +24,11 @@
 	required = true
 	clean = git-lfs clean -- %f
 
-[rerere]
-	enabled = true
+# [rerere]
+# 	enabled = true
 
-[merge]
-	conflictstyle = diff3
+# [merge]
+# 	conflictstyle = diff3
 
 [alias]
 
