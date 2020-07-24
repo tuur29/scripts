@@ -86,7 +86,7 @@
 
 	# Abbreviations
 	br = branch
-	brd = branch -d
+	brd = branch -D
 	c = checkout
 	cb = checkout -B
 	check = checkout
