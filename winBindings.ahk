@@ -26,7 +26,7 @@ CoordMode, Mouse, Screen
 {
 	; thumbs up
 	!t::
-		Send :thumbsup:{Space}{Enter}
+		Send :thumbsup:{Space}
 	return
 
 	; thumbs up as reaction
