@@ -3,7 +3,7 @@
 {
     "$schema": "https://aka.ms/terminal-profiles-schema",
 
-    "defaultProfile": "{00000000-0000-0000-0000-000000000001}",
+    "defaultProfile": "{2ece5bfe-50ed-5f3a-ab87-5cd4baafed2b}",
     "copyOnSelect": false,
     "copyFormatting": false,
     "alwaysOnTop": false,
@@ -32,11 +32,12 @@
         },
         "list": [
             {
-                "guid": "{00000000-0000-0000-0000-000000000001}",
+                "guid": "{2ece5bfe-50ed-5f3a-ab87-5cd4baafed2b}",
                 "name": "Git Bash",
-                "icon": "%PROGRAMFILES%\\git\\mingw64\\share\\git\\git-for-windows.ico",
-                "commandline": "\"%PROGRAMFILES%\\git\\bin\\bash.exe\" --login -i -l",
+                "source": "Git",
                 "padding": "0, 8, 8, 8"
+                // "icon": "%PROGRAMFILES%\\git\\mingw64\\share\\git\\git-for-windows.ico",
+                // "commandline": "\"%PROGRAMFILES%\\git\\bin\\bash.exe\" --login -i -l",
             },
             {
                 "guid": "{c6eaf9f4-32a7-5fdc-b5cf-066e8a4b1e40}",
@@ -92,7 +93,8 @@
             "brightPurple": "#a87db8",
             "brightCyan": "#58c2e5",
             "brightWhite": "#ffffff",
-            "background": "#272822",
+            // "background": "#272822",
+            "background": "#1E1F1C",
             "foreground": "#cacaca",
             "selectionBackground": "#cccc81",
             "cursorColor": "#ffffff"
