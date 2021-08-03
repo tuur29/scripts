@@ -2,7 +2,9 @@
 # TIPS:
 # - On windows WSL: `git config --global credential.helper "/mnt/c/Program\\ Files/Git/mingw64/libexec/git-core/git-credential-wincred.exe"`
 # - You can include this into your own gitconfig by adding this at the top of yours:
-# 	`[include] path = "C:/github/scripts/my.gitconfig"`
+# 	`[include] path = "~/git/scripts/my.gitconfig"`
+# - You can include different overrides depending on path:
+#   `[includeIf "gitdir/i:~/git/work/**"] path = ~/git/work/.gitconfig_include`
 
 [user]
 	name = 
