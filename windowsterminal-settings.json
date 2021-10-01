@@ -11,7 +11,8 @@
     "tabSwitcherMode": "inOrder",
     "theme": "dark",
     "tabWidthMode": "titleLength",
-    // "launchMode": "focus",
+    "centerOnLaunch": true,
+    "minimizeToTray": true,
 
     // To learn more about profiles, visit https://aka.ms/terminal-profile-settings
     "disabledProfileSources": ["Windows.Terminal.Azure", "Windows.Terminal.PowershellCore"],
@@ -110,6 +111,9 @@
 
         { "command": "find", "keys": "ctrl+shift+f" },
         { "command": { "action": "splitPane", "split": "auto", "splitMode": "duplicate" }, "keys": "alt+shift+d" },
+
+        // { "command": { "action": "quakeMode" }, "keys": "ctrl+`" }, // Too basic, no width adjust
+        { "command": { "action": "globalSummon", "monitor": "toMouse", "desktop":"toCurrent", "dropdownDuration": 100, "toggleVisibility": true }, "keys": "ctrl+`" },
 
         // tabs
         { "command": { "action": "newTab" }, "keys": "ctrl+t" },
