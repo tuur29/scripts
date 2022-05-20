@@ -33,7 +33,6 @@ return
 F1::return
 
 ; Dim second monitor (ctrl+shift+F1)
-; ^+F1::
 ^+F1::
 	SysGet, Mon2, Monitor, 2 ; select monitor here
 	Mon2Width:=Abs(Mon2Right-Mon2Left)
@@ -41,7 +40,7 @@ F1::return
 	; MsgBox, Left: %Mon2Left%, Top: %Mon2Top%, Width: %Mon2Width%, Height %Mon2Height%
 
 	KeyWait F1 ; workaround, best to also disable F1 
-	Gui +LastFound +AlwaysOnTop -Caption +ToolWindow
+	Gui +LastFound +AlwaysOnTop -Caption +ToolWindow +E0x20 ; last command makes it clickthrough
 	WinSet, Transparent, 180
 	Gui, Color, 000000
 	Gui, Show, X%Mon2Left% Y%Mon2Top% W%Mon2Width% H%Mon2Height% NoActivate, window
