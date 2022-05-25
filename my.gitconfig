@@ -97,7 +97,7 @@
 	clg = ! git clonehub
 	cm = commit -m
 	cma = ! git commitall
-	d = ! git discard
+	d = ! git checkout develop && git fetch && git pull
 	f = fetch --all --prune
 	g = ! git
 	p = ! git fetch --all --prune && git pull
