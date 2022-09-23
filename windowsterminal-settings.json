@@ -118,6 +118,7 @@
         { "command": { "action": "globalSummon", "monitor": "toMouse", "desktop":"toCurrent", "dropdownDuration": 100, "toggleVisibility": true }, "keys": "ctrl+`" },
 
         // tabs
+        { "command": "openTabRenamer", "keys": "f2" },
         { "command": { "action": "newTab" }, "keys": "ctrl+t" },
         { "command": { "action": "closeTab" }, "keys": "ctrl+w" },
         { "command": { "action": "switchToTab", "index": 0 }, "keys": "ctrl+1" },
