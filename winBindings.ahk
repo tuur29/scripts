@@ -6,27 +6,11 @@ SendMode Input ; Recommended for new scripts due to its superior speed and relia
 SetWorkingDir %A_ScriptDir% ; Ensures a consistent starting directory.
 CoordMode, Mouse, Screen
 
-; Remap prtscr to win+shift+s
-$PrintScreen::
-	SendEvent, #+s	; the + means shift, # means windows key
-return
-
-; Add media skip (ctr+f3)
-^F3::
-	Send {Media_Next}
-return
-
-; Add media prev (alt+f3)
-!F3::
-	Send {Media_Prev}
-return
-
-; Disable cortane hotkey (win+c)
-#c::return
-
 ; Easily open notepad (win+n)
 #n::
 	Run Notepad
+	Sleep 100
+	WinActivate, ahk_class Notepad
 return
 
 ; Disable F1 Help hotkey

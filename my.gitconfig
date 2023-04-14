@@ -5,6 +5,8 @@
 # 	`[include] path = "~/git/scripts/my.gitconfig"`
 # - You can include different overrides depending on path:
 #   `[includeIf "gitdir/i:~/git/work/**"] path = ~/git/work/.gitconfig_include`
+# - When using git-bash and node together, also run:
+# 	`npm config set script-shell "C:\\Program Files\\git\\bin\\bash.exe"`
 
 [user]
 	name = 
