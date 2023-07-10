@@ -7,10 +7,11 @@ SetWorkingDir %A_ScriptDir% ; Ensures a consistent starting directory.
 CoordMode, Mouse, Screen
 
 ; Easily open notepad (win+n)
+; To make this work consistently, also disable native function: https://www.ghacks.net/2015/03/22/how-to-disable-specific-global-hotkeys-in-windows/
 #n::
-	Run Notepad
-	Sleep 100
-	WinActivate, ahk_class Notepad
+	Run, notepad.exe
+	WinWaitActive, ahk_exe notepad.exe
+	WinSet, AlwaysOnTop, On, ahk_exe notepad.exe
 return
 
 ; Disable F1 Help hotkey
