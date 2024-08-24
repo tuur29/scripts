@@ -6,12 +6,52 @@ SendMode Input ; Recommended for new scripts due to its superior speed and relia
 SetWorkingDir %A_ScriptDir% ; Ensures a consistent starting directory.
 CoordMode, Mouse, Screen
 
-; Easily open notepad (win+n)
+; Source: https://www.autohotkey.com/boards/viewtopic.php?t=54557&start=20
+MWAGetMonitor(Mx := "", My := "")
+{
+	if  (!Mx or !My) 
+	{
+		; if Mx or My is empty, revert to the mouse cursor placement
+		Coordmode, Mouse, Screen	; use Screen, so we can compare the coords with the sysget information`
+		MouseGetPos, Mx, My
+	}
+
+	SysGet, MonitorCount, 80	; monitorcount, so we know how many monitors there are, and the number of loops we need to do
+	Loop, %MonitorCount%
+	{
+		SysGet, mon%A_Index%, Monitor, %A_Index%	; "Monitor" will get the total desktop space of the monitor, including taskbars
+
+		if ( Mx >= mon%A_Index%left ) && ( Mx < mon%A_Index%right ) && ( My >= mon%A_Index%top ) && ( My < mon%A_Index%bottom )
+		{
+			ActiveMon := A_Index
+			break
+		}
+	}
+	return ActiveMon
+}
+
+; Easily open notepad on window where mouse is (win+n)
 ; To make this work consistently, also disable native function: https://www.ghacks.net/2015/03/22/how-to-disable-specific-global-hotkeys-in-windows/
 #n::
-	Run, notepad.exe
+	; Get cursor position and monitor handle
+	ActiveMon := MWAGetMonitor()
+
+	; Get monitor information
+	SysGet, mon, Monitor, %ActiveMon%
+	monWidth := Abs(monRight - monLeft)
+	monHeight := Abs(monTop - monBottom)
+	
+	; Open Notepad and move it to the center of the active monitor
+	Run notepad.exe
 	WinWaitActive, ahk_exe notepad.exe
-	WinSet, AlwaysOnTop, On, ahk_exe notepad.exe
+
+	; WinGetPos ,, winWidth, winHeight, A
+	winWidth := 900
+	winHeight := monHeight / 2
+	WinMove, A, , Abs(monLeft + (monWidth / 2) - winWidth / 2), Abs(monTop + (monHeight / 2) - winHeight / 2), winWidth, winHeight
+
+	; Bring the window to the top
+	WinActivate, A
 return
 
 ; Disable F1 Help hotkey
