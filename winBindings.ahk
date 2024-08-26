@@ -40,15 +40,15 @@ MWAGetMonitor(Mx := "", My := "")
 	SysGet, mon, Monitor, %ActiveMon%
 	monWidth := Abs(monRight - monLeft)
 	monHeight := Abs(monTop - monBottom)
-	
+
 	; Open Notepad and move it to the center of the active monitor
 	Run notepad.exe
 	WinWaitActive, ahk_exe notepad.exe
 
-	; WinGetPos ,, winWidth, winHeight, A
 	winWidth := 900
 	winHeight := monHeight / 2
-	WinMove, A, , Abs(monLeft + (monWidth / 2) - winWidth / 2), Abs(monTop + (monHeight / 2) - winHeight / 2), winWidth, winHeight
+	WinMove, A, , monLeft + (monWidth / 2) - winWidth / 2, monTop + (monHeight / 2) - winHeight / 2
+	WinMove, A, , , , winWidth, winHeight ; separate call to fix dpi issues
 
 	; Bring the window to the top
 	WinActivate, A
